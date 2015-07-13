@@ -1,0 +1,32 @@
+Categories:
+builder - good at building and collecting resources
+offensive - good at destroying other buildings
+defensive - good at protecting own buildings.
+
+All classes can use iron to craft makeshift armor. The cost for said armor will be scaled down from vanilla minecraft costs.
+Helmets / boots will be 2, leggings will be 3, chestplates will be 5.
+
+O:4
+D:4
+B:4
+
+Lumberjack, builder-offensive
+"Has a lovely axe." ( starts with iron axe )
+
+Pyrotechnic, offensive
+"Just wants to see the world burn." ( starts off with flint / steel and black leather armor with fire protection )
+
+Fireman, builder-offensive-defensive
+"insert tagline here." ( starts off with black leather armor with fire protection, a water hose [ needs plugin stuff ], and a fireman's axe [ stone probably ] )
+
+Trapper, defensive
+"Master of traps!" ( can use iron to craft traps [ needs plugin stuff ], and can mine more iron than other players )
+
+Fighter, offensive-defensive
+"Wields a nice sword." ( starts with an iron sword, can use iron to craft throwing knives [ needs plugin stuff ] )
+
+Welder, builder-defensive
+"Can make durable metal blocks." ( can turn a piece of iron into 4 metal blocks, which require being destroyed multiple times. It will start out as an iron block, then go to polished diorite, then normal diorite, then finally break [ needs plugin stuff ] )
+
+Contractor, builder
+"Controls a legion of builders." ( can mark out an area to be filled with a certain block, and have it filled automatically [ needs plugin stuff ] )
