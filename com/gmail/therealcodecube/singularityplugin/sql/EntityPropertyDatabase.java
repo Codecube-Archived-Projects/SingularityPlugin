@@ -10,29 +10,13 @@ import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
 public class EntityPropertyDatabase 
 {
 	private String tableName;
-	private HashMap < String, SQLProperty > properties = new HashMap < String, SQLProperty > ( );
-	
-	private static HashMap < String, SQLProperty > formatPropertyVector ( Vector < SQLProperty > v )
-	{
-		HashMap < String, SQLProperty > toReturn = new HashMap < String, SQLProperty > ( );
-		for ( SQLProperty p : v )
-		{
-			toReturn.put ( p.getName ( ), p );
-		}
-		return toReturn;
-	}
-	
-	public EntityPropertyDatabase ( String t, HashMap < String, SQLProperty > p )
-	{
-		tableName = t;
-		properties = p;
-		this.init ( );
-	}
+	//A vector of properties that can be stored for each entity.
+	private Vector < SQLProperty > properties = new Vector < SQLProperty > ( );
 	
 	public EntityPropertyDatabase ( String t, Vector < SQLProperty > v )
 	{
 		tableName = t;
-		properties = formatPropertyVector ( v );
+		properties = v;
 		this.init ( );
 	}
 	
@@ -49,7 +33,7 @@ public class EntityPropertyDatabase
 	{
 		String command = "";
 		command += "CREATE TABLE " + tableName + " ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT";
-		for ( SQLProperty i : properties.values ( ) )
+		for ( SQLProperty i : properties )
 		{
 			command += ", " + i.getDeclaration ( ) ;
 		}
@@ -70,13 +54,13 @@ public class EntityPropertyDatabase
 		{
 			String command = "";
 			command += "INSERT INTO " + tableName + " ( name";
-			for ( SQLProperty i : properties.values ( ) )
+			for ( SQLProperty i : properties )
 			{
 				command += ", " + i.getName ( );
 			}
 			
 			command += " ) VALUES ( \"" + n + "\"";
-			for ( SQLProperty i : properties.values ( ) )
+			for ( SQLProperty i : properties )
 			{
 				command += ", " + i.getDefaultValue ( ).formatValue ( );
 			}
@@ -87,9 +71,9 @@ public class EntityPropertyDatabase
 	}
 	
 	//Gets a property for a specific named entity
-	public SQLValue getProperty ( String n, String p )
+	public SQLValue getProperty ( String e, String p )
 	{
-		String command = "SELECT " + p + " FROM " + tableName + " WHERE name = \"" + n + "\";";
+		String command = "SELECT " + p + " FROM " + tableName + " WHERE name = \"" + e + "\";";
 		ResultSet set = SQLInterface.sendQuery ( command );
 	
 		try 
@@ -107,9 +91,9 @@ public class EntityPropertyDatabase
 				return new SQLValue ( ( Integer ) result );
 			}
 		} 
-		catch (SQLException e) 
+		catch ( SQLException x ) 
 		{
-			e.printStackTrace();
+			x.printStackTrace();
 		}
 		
 		SingularityPlugin.getPlugin ( ).getLogger ( ).info ( "returning null" );

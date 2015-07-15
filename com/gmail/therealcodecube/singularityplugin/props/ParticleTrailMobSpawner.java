@@ -57,13 +57,11 @@ public class ParticleTrailMobSpawner extends Prop
 			//This is basically a lerp function for the two locations specified
 			double x, y, z;
 			double lerpAmount = ( System.currentTimeMillis ( ) - startTime ) / ( ( double ) ( endTime - startTime ) );
-			x = ( ( endPos.getX ( ) - startPos.getX ( ) ) * lerpAmount ) + startPos.getX ( );
-			y = ( ( endPos.getY ( ) - startPos.getY ( ) ) * lerpAmount ) + startPos.getY ( );
-			z = ( ( endPos.getZ ( ) - startPos.getZ ( ) ) * lerpAmount ) + startPos.getZ ( );
+			location.setX ( ( ( endPos.getX ( ) - startPos.getX ( ) ) * lerpAmount ) + startPos.getX ( ) );
+			location.setY ( ( ( endPos.getY ( ) - startPos.getY ( ) ) * lerpAmount ) + startPos.getY ( ) );
+			location.setZ ( z = ( ( endPos.getZ ( ) - startPos.getZ ( ) ) * lerpAmount ) + startPos.getZ ( ) );
 			
-			Location midPos = new Location ( startPos.getWorld ( ), x, y, z );
-			
-			particleTrail.display ( 0.1f, 0.1f, 0.1f, 0.0f, 10, midPos, 1000 );
+			particleTrail.display ( 0.1f, 0.1f, 0.1f, 0.0f, 10, location, 1000 );
 		}
 		else
 		{

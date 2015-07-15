@@ -10,7 +10,7 @@ import org.bukkit.util.io.BukkitObjectOutputStream;
 
 public class InventorySerializer 
 {
-	public static byte[] serializeItemStacks(ItemStack[] inv)
+	public static String serializeItemStacks(ItemStack[] inv)
 	{
         try 
         {
@@ -18,7 +18,8 @@ public class InventorySerializer
             BukkitObjectOutputStream bos = new BukkitObjectOutputStream(os);
             bos.writeObject(inv);
             bos.close();
-            return os.toByteArray();
+            //The ISO-8859-1 encoding has characters for each possible byte. This allows for uncorrupted storage in string form.
+            return new String ( os.toByteArray(), "ISO-8859-1" );
         } 
         catch (IOException ex) 
         {
@@ -27,11 +28,13 @@ public class InventorySerializer
         }
     }
 
-    public static ItemStack[] deserializeItemStacks(byte[] b)
+    public static ItemStack[] deserializeItemStacks(String b)
     {
         try 
         {
-            ByteArrayInputStream bais = new ByteArrayInputStream(b);
+        	//The ISO-8859-1 encoding has characters for each possible byte. This allows for uncorrupted transition from string form.
+        	byte[] ba = b.getBytes ( "ISO-8859-1" );
+            ByteArrayInputStream bais = new ByteArrayInputStream(ba);
             BukkitObjectInputStream bois = new BukkitObjectInputStream(bais);
             ItemStack[] tr = (ItemStack[]) bois.readObject();
             bois.close();

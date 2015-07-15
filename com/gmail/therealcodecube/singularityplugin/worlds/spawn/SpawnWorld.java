@@ -9,17 +9,21 @@ import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.darkblade12.particleeffect.ParticleEffect.OrdinaryColor;
+
 import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
 import com.gmail.therealcodecube.singularityplugin.player.SBoard;
 import com.gmail.therealcodecube.singularityplugin.player.SBoardStat;
 import com.gmail.therealcodecube.singularityplugin.player.SPlayer;
 import com.gmail.therealcodecube.singularityplugin.player.SQLStat;
 import com.gmail.therealcodecube.singularityplugin.player.StaticStat;
+import com.gmail.therealcodecube.singularityplugin.props.Teleporter;
 import com.gmail.therealcodecube.singularityplugin.sgui.ButtonPressed;
 import com.gmail.therealcodecube.singularityplugin.sgui.DynamicGuiLink;
 import com.gmail.therealcodecube.singularityplugin.sgui.SButton;
 import com.gmail.therealcodecube.singularityplugin.sgui.ButtonInfo;
 import com.gmail.therealcodecube.singularityplugin.worldbehavior.WorldBehavior;
+import com.gmail.therealcodecube.singularityplugin.worlds.pve.PVEGame;
 
 public class SpawnWorld extends WorldBehavior 
 {
@@ -34,6 +38,13 @@ public class SpawnWorld extends WorldBehavior
 	public void init ( )
 	{
 		super.init ( );
+		
+		//Set up a teleporter
+		Teleporter tp = new Teleporter ( 
+				new Location ( world, -278, 163, 318),
+				PVEGame.class,
+				new OrdinaryColor ( 200, 20, 20 ) );
+		addProp ( tp );
 		
 		//Set up the navigation button thing.
 		ItemStack navItem = new ItemStack ( Material.EYE_OF_ENDER );

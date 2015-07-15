@@ -106,6 +106,12 @@ public class WorldBehavior
 		return world;
 	}
 	
+	//Returns the player list.
+	public Vector < SPlayer > getPlayers ( )
+	{
+		return players;
+	}
+	
 	//Computes a numeric value ranking this server as far as joining.
 	public int getJoinRank ( )
 	{

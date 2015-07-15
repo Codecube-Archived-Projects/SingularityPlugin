@@ -42,7 +42,7 @@ public class SurvivalWorld extends WorldBehavior
 		ItemStack[] items;
 		try 
 		{
-			items = InventorySerializer.deserializeItemStacks ( serializedContents.getBytes ( "ISO-8859-1" ) );
+			items = InventorySerializer.deserializeItemStacks ( serializedContents );
 			p.getPlayer ( ).getInventory ( ).setContents ( items );
 		} 
 		catch (Exception e) 
@@ -63,7 +63,7 @@ public class SurvivalWorld extends WorldBehavior
 		String serializedContents;
 		try 
 		{
-			serializedContents = new String ( InventorySerializer.serializeItemStacks ( items ), "ISO-8859-1" );
+			serializedContents = InventorySerializer.serializeItemStacks ( items );
 			DefaultTables.players.setProperty ( r.getName ( ), "survival_inventory", new SQLValue ( serializedContents ) );
 		} 
 		catch (Exception e) 
