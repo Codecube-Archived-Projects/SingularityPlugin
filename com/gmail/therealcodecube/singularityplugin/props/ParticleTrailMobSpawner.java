@@ -4,7 +4,9 @@ import java.util.Vector;
 
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
+
 import com.darkblade12.particleeffect.ParticleEffect;
+import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
 import com.gmail.therealcodecube.singularityplugin.worlds.pve.PVEMobs;
 
 public class ParticleTrailMobSpawner extends Prop
@@ -17,6 +19,7 @@ public class ParticleTrailMobSpawner extends Prop
 	
 	public ParticleTrailMobSpawner ( Location s, Location e, long d, ParticleEffect t )
 	{
+		super ( s );
 		startPos = s;
 		endPos = e;
 		startTime = System.currentTimeMillis ( );
@@ -28,6 +31,7 @@ public class ParticleTrailMobSpawner extends Prop
 	
 	public ParticleTrailMobSpawner ( Location s, Location e, long d, ParticleEffect t, PVEMobs m )
 	{
+		super ( s );
 		startPos = s;
 		endPos = e;
 		startTime = System.currentTimeMillis ( );
@@ -38,6 +42,12 @@ public class ParticleTrailMobSpawner extends Prop
 	
 	public ParticleTrailMobSpawner ( Location s, Location e, long d, ParticleEffect t, PVEMobs m, Vector < LivingEntity > l )
 	{
+		//Make sure we copy the location, not just make another pointer to the same thing.
+		super ( new Location (
+				s.getWorld ( ),
+				s.getX ( ),
+				s.getY ( ),
+				s.getZ ( )) );
 		startPos = s;
 		endPos = e;
 		startTime = System.currentTimeMillis ( );
@@ -55,18 +65,17 @@ public class ParticleTrailMobSpawner extends Prop
 		{
 			//Render the particle trail effect
 			//This is basically a lerp function for the two locations specified
-			double x, y, z;
 			double lerpAmount = ( System.currentTimeMillis ( ) - startTime ) / ( ( double ) ( endTime - startTime ) );
 			location.setX ( ( ( endPos.getX ( ) - startPos.getX ( ) ) * lerpAmount ) + startPos.getX ( ) );
 			location.setY ( ( ( endPos.getY ( ) - startPos.getY ( ) ) * lerpAmount ) + startPos.getY ( ) );
-			location.setZ ( z = ( ( endPos.getZ ( ) - startPos.getZ ( ) ) * lerpAmount ) + startPos.getZ ( ) );
+			location.setZ ( ( ( endPos.getZ ( ) - startPos.getZ ( ) ) * lerpAmount ) + startPos.getZ ( ) );
 			
 			particleTrail.display ( 0.1f, 0.1f, 0.1f, 0.0f, 10, location, 1000 );
 		}
 		else
 		{
 			//Render a cloud right before the mob appearance
-			particleTrail.display( 0.5f, 1.0f, 0.5f, 0.0f, 40, endPos, 50 );
+			particleTrail.display( 0.5f, 1.0f, 0.5f, 0.0f, 40, endPos, 1000 );
 			
 			if ( System.currentTimeMillis ( ) >= ( endTime + 800L ) )
 			{

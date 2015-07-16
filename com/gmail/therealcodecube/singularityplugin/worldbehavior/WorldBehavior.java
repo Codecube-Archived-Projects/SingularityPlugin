@@ -29,7 +29,6 @@ public class WorldBehavior
 	public WorldBehavior ( World w )
 	{
 		world = w;
-		init ( );
 	}
 	
 	public void addProp ( Prop p )
@@ -104,6 +103,12 @@ public class WorldBehavior
 	public World getWorld ( )
 	{
 		return world;
+	}
+	
+	//Returns the size of the player list.
+	public int getPlayerCount ( )
+	{
+		return players.size ( );
 	}
 	
 	//Returns the player list.

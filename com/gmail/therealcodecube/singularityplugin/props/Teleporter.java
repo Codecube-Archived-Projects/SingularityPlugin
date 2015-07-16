@@ -4,6 +4,7 @@ import org.bukkit.Location;
 
 import com.darkblade12.particleeffect.ParticleEffect;
 import com.darkblade12.particleeffect.ParticleEffect.OrdinaryColor;
+import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
 import com.gmail.therealcodecube.singularityplugin.player.SPlayer;
 import com.gmail.therealcodecube.singularityplugin.worldbehavior.WorldBehavior;
 import com.gmail.therealcodecube.singularityplugin.worldbehavior.Worlds;
@@ -11,7 +12,7 @@ import com.gmail.therealcodecube.singularityplugin.worldbehavior.Worlds;
 public class Teleporter extends Prop 
 {
 	private Class < ? extends WorldBehavior > destination;
-	private OrdinaryColor color;
+	private OrdinaryColor color, lcolor;
 	//Set automatically to the world in which this prop was created.
 	private WorldBehavior origin;
 	private int frame = 0;
@@ -29,52 +30,81 @@ public class Teleporter extends Prop
 		location.setY ( location.getBlockY ( ) ); //Just need to be flat on the ground.
 		location.setZ ( location.getBlockZ ( ) + 0.5 );
 		destination = d;
-		//Plain white
+		
 		color = o;
+		//Makeshift color desaturation.
+		int r = color.getRed ( ),
+			g = color.getGreen ( ),
+			b = color.getBlue ( );
+		r = r + ( 255 - r ) / 2;
+		g = g + ( 255 - g ) / 2;
+		b = b + ( 255 - b ) / 2;
+		lcolor = new OrdinaryColor ( r, g, b );
+				
 		//Remember which world this teleporter was created in.
+		SingularityPlugin.info ( location.getWorld ( ).getName ( ) );
 		origin = Worlds.getWorld ( location.getWorld ( ) );
+		SingularityPlugin.info ( origin.getWorld ( ).getName ( ) );
 	}
 	
 	@Override
 	public boolean update ( )
 	{
 		frame++;
-		int f = frame % 120;
+		int f = frame % 60;
 		//Make multiples.
 		for ( int i = 0; i < 5; i++ )
 		{
-			f += 24;
-			f = f % 120;
+			f += 12;
+			f = f % 60;
 			//Makes a nice spiral shape.
 			Location p = new Location ( 
 				location.getWorld ( ), 
-				location.getX ( ) + ( Math.sin ( f * 3 ) / 2 ), 
-				location.getY ( ) + ( f / 41.0 ), 
-				location.getZ ( ) + ( Math.cos ( f * 3 ) / 2 ) );
+				location.getX ( ) + ( Math.sin ( f * 6 ) / 2 ), 
+				location.getY ( ) + ( f / 20.5 ), 
+				location.getZ ( ) + ( Math.cos ( f * 6 ) / 2 ) );
 			ParticleEffect.REDSTONE.display ( color, p, 100.0 );
-		}
-		f = f / 4;
-		for ( int i = 0; i < 2; i++ )
-		{
-			f += 15;
-			f = f % 30;
-			Location p = new Location ( 
-					location.getWorld ( ), 
-					location.getX ( ), 
-					location.getY ( ) + ( f / 10.25 ), 
-					location.getZ ( ) );
 			ParticleEffect.REDSTONE.display ( color, p, 100.0 );
 		}
 		
-		//Check if any players are inside the teleporter.
-		for ( SPlayer p : origin.getPlayers ( ) )
+		for ( int i = 0; i < 5; i++ )
 		{
-			if ( p.getPlayer ( ).getLocation ( ).getBlockX ( ) == location.getBlockX ( ) &&
-					p.getPlayer ( ).getLocation ( ).getBlockZ ( ) == location.getBlockZ ( ) &&
-					p.getPlayer ( ).getLocation ( ).getBlockY ( ) == location.getBlockY ( ) )
+			f += 12;
+			f = f % 60;
+			//Makes a nice spiral shape.
+			Location p = new Location ( 
+				location.getWorld ( ), 
+				location.getX ( ) + ( -Math.sin ( f * 6 ) / 2 ), 
+				location.getY ( ) + ( f / 20.5 ), 
+				location.getZ ( ) + ( -Math.cos ( f * 6 ) / 2 ) );
+			ParticleEffect.REDSTONE.display ( color, p, 100.0 );
+			ParticleEffect.REDSTONE.display ( color, p, 100.0 );
+		}
+		
+		f = f % 15;
+		for ( int i = 0; i < 12; i++ )
+		{
+			Location l = new Location ( 
+					location.getWorld ( ), 
+					location.getX ( ) + ( Math.sin ( i * 30 ) / 3 ) , 
+					location.getY ( ) + ( f / 5.125 ), 
+					location.getZ ( ) + ( Math.cos ( i * 30 ) / 3 ) );
+			ParticleEffect.REDSTONE.display ( lcolor, l, 100.0 );
+			ParticleEffect.REDSTONE.display ( lcolor, l, 100.0 );
+		}
+		
+		//Check if any players are inside the teleporter.
+		if ( origin.getPlayerCount ( ) > 0 )
+		{
+			for ( SPlayer p : origin.getPlayers ( ) )
 			{
-				//Player coords match the teleporter coords, so teleport them to the destination.
-				p.joinWorld ( destination );
+				if ( p.getPlayer ( ).getLocation ( ).getBlockX ( ) == location.getBlockX ( ) &&
+						p.getPlayer ( ).getLocation ( ).getBlockZ ( ) == location.getBlockZ ( ) &&
+						p.getPlayer ( ).getLocation ( ).getBlockY ( ) == location.getBlockY ( ) )
+				{
+					//Player coords match the teleporter coords, so teleport them to the destination.
+					p.joinWorld ( destination );
+				}
 			}
 		}
 		

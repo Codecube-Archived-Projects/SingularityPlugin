@@ -21,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import be.maximvdw.titlemotd.ui.Title;
 
 import com.darkblade12.particleeffect.ParticleEffect;
+import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
 import com.gmail.therealcodecube.singularityplugin.player.PropStat;
 import com.gmail.therealcodecube.singularityplugin.player.SBoard;
 import com.gmail.therealcodecube.singularityplugin.player.SBoardStat;
@@ -216,7 +217,7 @@ public class PVEGame extends Minigame
 				}
 				t.setDuration ( 120 * 1000L );
 				t.setTask ( task );
-				world.addProp ( new TimeMachine ( world.getWorld ( ), 17000 ) );
+				world.addProp ( new TimeMachine ( world.getWorld ( ), 20000 ) );
 				world.spawnWave ( );
 				return true;
 			}
@@ -237,7 +238,7 @@ public class PVEGame extends Minigame
 				}
 				t.setDuration ( 60 * 1000L );
 				t.setTask ( task );
-				world.addProp ( new TimeMachine ( world.getWorld ( ), 5000 ) );
+				world.addProp ( new TimeMachine ( world.getWorld ( ), 10000 ) );
 				return true;				
 			}
 		};
@@ -355,6 +356,7 @@ public class PVEGame extends Minigame
 	public void updatePlayer ( SPlayer p )
 	{
 		super.updatePlayer ( p );
+		p.setProp ( "mobs", spawnedMobs.size ( ) );
 		Player pl = p.getPlayer ( );
 		pl.setFoodLevel ( 17 );
 	}
@@ -375,7 +377,7 @@ public class PVEGame extends Minigame
 			m.sendMessage ( "Kill mobs to get points and resources." );
 			m.sendMessage ( "Use the piston and fire pit to craft items." );
 		}
-		addProp ( new TimeMachine ( world, 6000 ) );
+		addProp ( new TimeMachine ( world, 10000 ) );
 		gameTimer.setDuration ( 60 * 1000L );
 		gameTimer.setTask ( waveStart );
 	}
@@ -469,10 +471,10 @@ public class PVEGame extends Minigame
 	@Override
 	public void onEntityDeath ( EntityDeathEvent e )
 	{
+		e.getDrops ( ).clear ( );
+		e.setDroppedExp ( 0 );
 		if ( players.size ( ) > 0 )
 		{
-			e.getDrops ( ).clear ( );
-			e.setDroppedExp ( 0 );
 			PVEMobs mob = PVEMobs.getMob ( e.getEntity ( ).getCustomName ( ) );
 			e.getDrops ( ).add ( mob.getLoot ( ) );
 			//For determining which mob it was.
@@ -623,11 +625,6 @@ public class PVEGame extends Minigame
 				//Scale the amount of monsters based on how many players there are.
 				spawnMonsters ( l, r, (int) Math.floor ( waves [ wave ] [ l ] [ r ] * ( players.size() / 2.0 + 0.5 ) ) );
 			}
-		}
-		
-		for ( SPlayer p : players )
-		{
-			p.setProp ( "mobs", spawnedMobs.size ( ) + ( props.size ( ) - 1 ) );
 		}
 		
 		wave++;

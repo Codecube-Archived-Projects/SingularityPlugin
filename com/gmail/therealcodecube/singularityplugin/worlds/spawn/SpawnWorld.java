@@ -45,6 +45,7 @@ public class SpawnWorld extends WorldBehavior
 				PVEGame.class,
 				new OrdinaryColor ( 200, 20, 20 ) );
 		addProp ( tp );
+		SingularityPlugin.info ( world.getName ( ) );
 		
 		//Set up the navigation button thing.
 		ItemStack navItem = new ItemStack ( Material.EYE_OF_ENDER );

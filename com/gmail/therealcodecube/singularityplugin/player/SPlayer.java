@@ -249,6 +249,8 @@ public class SPlayer
 		if ( tj != null )
 		{
 			in.leaveWorld ( this );
+			SingularityPlugin.info ( "Player " + player.getDisplayName ( ) + " is leaving world " + in.getClass ( ).getName ( ) );
+			SingularityPlugin.info ( "Player " + player.getDisplayName ( ) + " is joining world " + world.getName ( ) );
 			tj.joinWorld ( this );
 			return true;
 		}

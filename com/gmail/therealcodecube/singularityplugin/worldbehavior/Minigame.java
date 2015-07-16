@@ -112,14 +112,16 @@ public class Minigame extends WorldBehavior
 	@Override
 	public void joinWorld ( SPlayer p )
 	{
+		//Just a standard call to super, does a couple things for us.
+		super.joinWorld ( p );
+		
 		//Reject the join if the game is full.
 		if ( livingPlayers >= maxPlayers )
 		{
 			p.rejectJoin ( "This minigame is full. (" + maxPlayers + "/" + maxPlayers + ")" );
 		}
 		
-		//Add the player to the list, increment the player count, set up point tracker.
-		players.add ( p );
+		//Increment the living player count, set up point tracker.
 		p.setProp ( "points", 0 );
 		livingPlayers++;
 		
@@ -157,8 +159,10 @@ public class Minigame extends WorldBehavior
 	@Override
 	public void leaveWorld ( SPlayer p )
 	{
+		//Just a standard call to super, does a couple things for us.
+		super.leaveWorld ( p );
+				
 		p.changePoints ( p.getProp ( "points" ) );
-		players.remove ( p );
 		p.removeProp ( "points" );
 		//Only decrement the living player count if the player is actually living.
 		if ( p.getPlayer ( ).getGameMode ( ) == GameMode.SURVIVAL )
