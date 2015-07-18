@@ -12,7 +12,7 @@ public class TimeMachine extends Prop
 	{
 		world = w;
 		targetTime = t;
-		timeStep = 30;
+		timeStep = 55;
 	}
 	
 	public TimeMachine ( World w, int t, int s )

@@ -7,9 +7,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import be.maximvdw.titlemotd.ui.Title;
 
+import com.gmail.therealcodecube.singularityplugin.node.Node;
 import com.gmail.therealcodecube.singularityplugin.player.SPlayer;
 import com.gmail.therealcodecube.singularityplugin.sql.DefaultTables;
-import com.gmail.therealcodecube.singularityplugin.worldbehavior.Worlds;
+import com.gmail.therealcodecube.singularityplugin.worlds.spawn.SpawnWorld;
 
 public class LoginHandler implements Listener 
 {
@@ -18,7 +19,8 @@ public class LoginHandler implements Listener
 	{
 		//Adds this player to the SPlayer database and
 		//Use the code in the spawn world's world manager to manipulate the player.
-		Worlds.joinWorld ( SPlayer.addPlayer( e.getPlayer ( ) ), SingularityPlugin.getSpawn ( ).getWorld ( ) );
+		SPlayer p = SPlayer.addPlayer( e.getPlayer ( ) );
+		Node.joinWorld ( SpawnWorld.class, p );
 		
 		Title joinTitle = new Title ( "Hello, " + e.getPlayer ( ).getDisplayName ( ) + "!", 
 				"You have " + DefaultTables.players.getProperty ( e.getPlayer ( ).getName ( ), "points" ).formatValue ( ) + " points." );
@@ -28,7 +30,7 @@ public class LoginHandler implements Listener
 	@EventHandler
 	public void onPlayerQuit ( PlayerQuitEvent e )
 	{
-		Worlds.leaveWorld ( SPlayer.getPlayer ( e.getPlayer ( ) ), e.getPlayer ( ).getWorld ( ) );
+		Node.getNode ( e.getPlayer ( ).getWorld ( ) ).leave ( SPlayer.getPlayer ( e.getPlayer ( ) ) );
 		SPlayer.removePlayer ( e.getPlayer ( ) );
 	}
 }

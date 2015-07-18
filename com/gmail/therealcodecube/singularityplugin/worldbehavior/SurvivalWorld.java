@@ -21,7 +21,7 @@ public class SurvivalWorld extends WorldBehavior
 	}
 	
 	@Override
-	protected void init ( )
+	public void init ( )
 	{
 		//Set spawn location
 		if ( spawn == null )

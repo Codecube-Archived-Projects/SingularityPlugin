@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import be.maximvdw.titlemotd.ui.Title;
 
 import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
-import com.gmail.therealcodecube.singularityplugin.player.PropStat;
+import com.gmail.therealcodecube.singularityplugin.player.VarStat;
 import com.gmail.therealcodecube.singularityplugin.player.SBoard;
 import com.gmail.therealcodecube.singularityplugin.player.SBoardStat;
 import com.gmail.therealcodecube.singularityplugin.player.SPlayer;
@@ -122,7 +122,7 @@ public class Minigame extends WorldBehavior
 		}
 		
 		//Increment the living player count, set up point tracker.
-		p.setProp ( "points", 0 );
+		p.setVar ( "points", 0 );
 		livingPlayers++;
 		
 		//Gives the player a scoreboard.
@@ -162,8 +162,8 @@ public class Minigame extends WorldBehavior
 		//Just a standard call to super, does a couple things for us.
 		super.leaveWorld ( p );
 				
-		p.changePoints ( p.getProp ( "points" ) );
-		p.removeProp ( "points" );
+		p.changePoints ( p.getVar ( "points" ) );
+		p.removeVar ( "points" );
 		//Only decrement the living player count if the player is actually living.
 		if ( p.getPlayer ( ).getGameMode ( ) == GameMode.SURVIVAL )
 		{
@@ -227,7 +227,7 @@ public class Minigame extends WorldBehavior
 		// 0 Points
 		Vector < SBoardStat > stats = new Vector < SBoardStat > ( );
 		stats.add ( new StaticStat ( p.getDisplayName ( ) ) );
-		stats.add ( new PropStat ( p, "points", "# Points" ) );
+		stats.add ( new VarStat ( p, "points", "# Points" ) );
 		
 		return new SBoard ( "DEFAULT", stats );
 	}

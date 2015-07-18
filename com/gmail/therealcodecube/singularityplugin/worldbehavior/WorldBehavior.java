@@ -74,7 +74,7 @@ public class WorldBehavior
 		updateLoop.runTaskTimer ( SingularityPlugin.getPlugin ( ) , 0L, ticks );
 	}
 	
-	protected void init ( )
+	public void init ( )
 	{
 		runUpdateLoop ( 1L );
 	}
@@ -127,6 +127,11 @@ public class WorldBehavior
 	
 	//Lots of placeholder functions so that various worlds can override various events.
 	public void onRightClick ( PlayerInteractEvent e )
+	{
+		
+	}
+	
+	public void onLeftClick ( PlayerInteractEvent e )
 	{
 		
 	}

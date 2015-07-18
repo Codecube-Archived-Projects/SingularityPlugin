@@ -4,7 +4,7 @@ import org.bukkit.Location;
 
 import com.darkblade12.particleeffect.ParticleEffect;
 import com.darkblade12.particleeffect.ParticleEffect.OrdinaryColor;
-import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
+import com.gmail.therealcodecube.singularityplugin.node.Node;
 import com.gmail.therealcodecube.singularityplugin.player.SPlayer;
 import com.gmail.therealcodecube.singularityplugin.worldbehavior.WorldBehavior;
 import com.gmail.therealcodecube.singularityplugin.worldbehavior.Worlds;
@@ -16,6 +16,65 @@ public class Teleporter extends Prop
 	//Set automatically to the world in which this prop was created.
 	private WorldBehavior origin;
 	private int frame = 0;
+	
+	/*@SuppressWarnings("unchecked")
+	@Override
+	public static Prop create ( Location l, String [ ] args )
+	{
+		try 
+		{
+			Class < ? > c =  Class.forName ( args [ 0 ] );
+			Class < ? extends WorldBehavior > d;
+			OrdinaryColor col = new OrdinaryColor ( 128, 128, 128 );
+			//If c is of type WorldBehavior
+			if ( WorldBehavior.class.isAssignableFrom ( c ) )
+			{
+				d = ( Class < ? extends WorldBehavior > ) c;
+			}
+			else
+			{
+				return new ErrorCarrier ( new String [ ] {
+						"The class you specified:",
+						args [ 0 ],
+						"Does not extend the class com.gmail.therealcodecube.singularityplugin.worldbehavior.WorldBehavior."
+						});
+			}
+			
+			if ( args.length > 1 )
+			{
+				//Make a color if possible.
+				int r = Integer.parseInt ( args [ 1 ] ),
+					g = Integer.parseInt ( args [ 2 ] ),
+					b = Integer.parseInt ( args [ 3 ] );
+			}
+			Teleporter tr = new Teleporter ( l, d, col );
+			return tr;
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace ( );
+			if ( e instanceof IndexOutOfBoundsException )
+			{
+				return new ErrorCarrier ( new String [ ] { 
+						"Invalid argument list! Arguments are:",
+						"<WorldName> [ <R> <G> <B> ]",
+						"WorldName is the fully qualified name of a class extending com.gmail.therealcodecube.singularityplugin.worldbehavior.WorldBehavior",
+						"R, G, and B are used for the color of the teleporter. Either they are all there, or none are.",
+						"You gave " + args.length + " arguments, which does not match the syntax." 
+						} );
+			}
+			else if ( e instanceof ClassNotFoundException )
+			{
+				return new ErrorCarrier ( new String [ ] {
+						"The class name you provided: ",
+						args [ 0 ],
+						"Is not a valid class name. Please check your syntax.",
+						"It needs to be a fully qualified class name, such as:",
+						"com.gmail.therealcodecube.singularityplugin.worlds.spawn.SpawnWorld"
+						} );
+			}
+		}
+	}*/
 	
 	public Teleporter ( Location l, Class < ? extends WorldBehavior > d )
 	{
@@ -40,16 +99,19 @@ public class Teleporter extends Prop
 		g = g + ( 255 - g ) / 2;
 		b = b + ( 255 - b ) / 2;
 		lcolor = new OrdinaryColor ( r, g, b );
-				
-		//Remember which world this teleporter was created in.
-		SingularityPlugin.info ( location.getWorld ( ).getName ( ) );
-		origin = Worlds.getWorld ( location.getWorld ( ) );
-		SingularityPlugin.info ( origin.getWorld ( ).getName ( ) );
+		
+		//Can't record the origin yet, because the origin is probably being created when this constructor is called!
+		origin = null;
 	}
 	
 	@Override
 	public boolean update ( )
 	{
+		if ( origin == null )
+		{
+			origin = Node.getNode ( location.getWorld ( ) ).getBehavior ( );
+		}
+		
 		frame++;
 		int f = frame % 60;
 		//Make multiples.

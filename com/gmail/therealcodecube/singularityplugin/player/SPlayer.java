@@ -13,6 +13,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
+import com.gmail.therealcodecube.singularityplugin.node.Node;
 import com.gmail.therealcodecube.singularityplugin.sgui.SGui;
 import com.gmail.therealcodecube.singularityplugin.sgui.SButton;
 import com.gmail.therealcodecube.singularityplugin.sql.DefaultTables;
@@ -178,16 +179,16 @@ public class SPlayer
 		player.sendMessage ( message );
 	}
 	
-	//Checks whether or not this player has a property named after the argument.
-	public boolean isProp ( String i )
+	//Checks whether or not this player has a var named after the argument.
+	public boolean isVar ( String i )
 	{
 		return tempData.containsKey ( i );
 	}
 	
-	//Gets the value of a certain property.
-	public int getProp ( String i )
+	//Gets the value of a certain var.
+	public int getVar ( String i )
 	{
-		if ( isProp ( i ) )
+		if ( isVar ( i ) )
 		{
 			return tempData.get ( i );
 		}
@@ -197,10 +198,10 @@ public class SPlayer
 		}
 	}
 	
-	//Sets the value of a certain property.
-	public void setProp ( String i, int v )
+	//Sets the value of a certain var.
+	public void setVar ( String i, int v )
 	{
-		if ( isProp ( i ) )
+		if ( isVar ( i ) )
 		{
 			tempData.remove ( i );
 		}
@@ -208,11 +209,11 @@ public class SPlayer
 		tempData.put ( i, v );
 	}
 	
-	//Offsets the value of a certain property.
-	public void changeProp ( String i, int c )
+	//Offsets the value of a certain var.
+	public void changeVar ( String i, int c )
 	{
 		int v = 0;
-		if ( isProp ( i ) )
+		if ( isVar ( i ) )
 		{
 			v = tempData.get ( i );
 			tempData.remove ( i );
@@ -220,10 +221,10 @@ public class SPlayer
 		tempData.put ( i, v + c );
 	}
 	
-	//Removes the named prop
-	public void removeProp ( String i )
+	//Removes the named var
+	public void removeVar ( String i )
 	{
-		if ( isProp ( i ) )
+		if ( isVar ( i ) )
 		{
 			tempData.remove ( i );
 		}
@@ -244,14 +245,11 @@ public class SPlayer
 	//Sends the player to a particular type of world, if it can find an open one.
 	public boolean joinWorld ( Class < ? extends WorldBehavior > world )
 	{
-		WorldBehavior tj = Worlds.findJoinableWorld ( world );
-		WorldBehavior in = Worlds.getWorld ( player.getWorld ( ) );
-		if ( tj != null )
+		Node in = Node.getNode ( player.getWorld ( ) );
+		if ( in != null )
 		{
-			in.leaveWorld ( this );
-			SingularityPlugin.info ( "Player " + player.getDisplayName ( ) + " is leaving world " + in.getClass ( ).getName ( ) );
-			SingularityPlugin.info ( "Player " + player.getDisplayName ( ) + " is joining world " + world.getName ( ) );
-			tj.joinWorld ( this );
+			in.leave ( this );
+			Node.joinWorld ( world, this );
 			return true;
 		}
 		return false;

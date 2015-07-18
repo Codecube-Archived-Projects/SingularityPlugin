@@ -1,5 +1,7 @@
 package com.gmail.therealcodecube.singularityplugin;
 
+import java.util.logging.Level;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -8,21 +10,38 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.gmail.therealcodecube.singularityplugin.node.Node;
 import com.gmail.therealcodecube.singularityplugin.player.SPlayer;
 import com.gmail.therealcodecube.singularityplugin.sql.SQLInterface;
 import com.gmail.therealcodecube.singularityplugin.sql.DefaultTables;
 import com.gmail.therealcodecube.singularityplugin.sql.SQLValue;
 import com.gmail.therealcodecube.singularityplugin.worldbehavior.Worlds;
+import com.gmail.therealcodecube.singularityplugin.worlds.griefgame.GriefGame;
+import com.gmail.therealcodecube.singularityplugin.worlds.pve.PVEGame;
 import com.gmail.therealcodecube.singularityplugin.worlds.pve.PVEItems;
 import com.gmail.therealcodecube.singularityplugin.worlds.spawn.SpawnWorld;
+import com.onarandombox.MultiverseCore.MultiverseCore;
 
 public class SingularityPlugin extends JavaPlugin 
 {
 	static Location spawn;
+	static MultiverseCore multiverse;
 	
 	@Override
 	public void onEnable ( )
 	{
+		//Testing integration with Multiverse-Core
+		Plugin p = ( MultiverseCore ) getServer ( ).getPluginManager ( ).getPlugin ( "Multiverse-Core" );
+		if ( p instanceof MultiverseCore )
+		{
+			multiverse = ( MultiverseCore ) p;
+			multiverse.log ( Level.INFO, "Multiverse-Core has been sucessfully integrated into SingularityPlugin" );
+		}
+		else
+		{
+			info ( "Warning: Multiverse core not found!" );
+		}
+			
 		//Record the spawn location for spawning players
 		spawn = new Location ( getServer().getWorld( "world" ), -279, 162, 312 );
 		
@@ -42,8 +61,16 @@ public class SingularityPlugin extends JavaPlugin
 		//Start the scoreboard update loop
 		SPlayer.rebuildBoards ( );
 		
-		//Initialize all dimensions listed in the Worlds class
-		Worlds.init();
+		//Test the new node system
+		Node pve = new Node ( Bukkit.getServer ( ).getWorld ( "PVE" ) );
+		pve.setBehavior ( PVEGame.class );
+		Node grief = new Node ( Bukkit.getServer ( ).getWorld ( "GriefWars" ) );
+		grief.setBehavior ( GriefGame.class );
+		Node spawn = new Node ( Bukkit.getServer ( ).getWorld ( "world" ) );
+		spawn.setBehavior ( SpawnWorld.class );
+		Node.addNode ( pve );
+		Node.addNode ( grief );
+		Node.addNode ( spawn );
 	}
 	
 	@Override

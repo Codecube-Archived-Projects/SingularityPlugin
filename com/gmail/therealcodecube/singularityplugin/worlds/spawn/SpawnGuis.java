@@ -13,7 +13,6 @@ import com.gmail.therealcodecube.singularityplugin.sgui.DynamicSGui;
 import com.gmail.therealcodecube.singularityplugin.sgui.PveItemButton;
 import com.gmail.therealcodecube.singularityplugin.sgui.SGui;
 import com.gmail.therealcodecube.singularityplugin.sgui.SButton;
-import com.gmail.therealcodecube.singularityplugin.sgui.SGuiLink;
 import com.gmail.therealcodecube.singularityplugin.sql.DefaultTables;
 
 public enum SpawnGuis implements DynamicSGui

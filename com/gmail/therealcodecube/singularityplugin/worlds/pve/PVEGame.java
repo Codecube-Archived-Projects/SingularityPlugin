@@ -21,8 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import be.maximvdw.titlemotd.ui.Title;
 
 import com.darkblade12.particleeffect.ParticleEffect;
-import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
-import com.gmail.therealcodecube.singularityplugin.player.PropStat;
+import com.gmail.therealcodecube.singularityplugin.player.VarStat;
 import com.gmail.therealcodecube.singularityplugin.player.SBoard;
 import com.gmail.therealcodecube.singularityplugin.player.SBoardStat;
 import com.gmail.therealcodecube.singularityplugin.player.SPlayer;
@@ -213,7 +212,7 @@ public class PVEGame extends Minigame
 				for ( SPlayer p : world.players )
 				{
 					waveOver.send ( p.getPlayer ( ) );
-					p.setProp ( "wave", world.wave + 1 );
+					p.setVar ( "wave", world.wave + 1 );
 				}
 				t.setDuration ( 120 * 1000L );
 				t.setTask ( task );
@@ -320,10 +319,10 @@ public class PVEGame extends Minigame
 		}
 		
 		//Set a variable so that we know that this player has not opened the start chest.
-		p.setProp ( "openedStartChest", 0 );
+		p.setVar ( "openedStartChest", 0 );
 		//These are for scoreboard purposes.
-		p.setProp ( "wave", 1 );
-		p.setProp ( "mobs", 0 );
+		p.setVar ( "wave", 1 );
+		p.setVar ( "mobs", 0 );
 	}
 
 	@Override
@@ -356,7 +355,7 @@ public class PVEGame extends Minigame
 	public void updatePlayer ( SPlayer p )
 	{
 		super.updatePlayer ( p );
-		p.setProp ( "mobs", spawnedMobs.size ( ) );
+		p.setVar ( "mobs", spawnedMobs.size ( ) );
 		Player pl = p.getPlayer ( );
 		pl.setFoodLevel ( 17 );
 	}
@@ -429,7 +428,7 @@ public class PVEGame extends Minigame
 			{
 				SPlayer sp = SPlayer.getPlayer ( e.getPlayer ( ) );
 				//Only open the start chest if they haven't opened it before.
-				if ( sp.getProp ( "openedStartChest" ) == 0 )
+				if ( sp.getVar ( "openedStartChest" ) == 0 )
 				{
 					ItemStack sword = new ItemStack ( Material.WOOD_SWORD );
 					sword.addEnchantment ( Enchantment.DURABILITY, 3 );
@@ -445,7 +444,7 @@ public class PVEGame extends Minigame
 					if ( metal > 0 ) { sp.getPlayer ( ).getInventory ( ).addItem ( PVEItems.METAL.craft ( metal ) ); }
 					
 					sp.sendMessage ( "You open the start chest and retrieve a wooden sword." );
-					sp.setProp ( "openedStartChest", 1 );
+					sp.setVar ( "openedStartChest", 1 );
 				}
 			}
 			else if ( m == Material.BED_BLOCK )
@@ -466,6 +465,13 @@ public class PVEGame extends Minigame
 				item.onUse ( e );
 			}
 		}
+	}
+	
+	@Override
+	public void onLeftClick ( PlayerInteractEvent e )
+	{
+		super.onLeftClick ( e );
+		e.setCancelled ( true );
 	}
 	
 	@Override
@@ -520,14 +526,14 @@ public class PVEGame extends Minigame
 				//Give them points.
 				if ( sk != null )
 				{
-					sk.changeProp ( "points", points [ level ] [ rank ] );
+					sk.changeVar ( "points", points [ level ] [ rank ] );
 				}
 			}
 		}
 		
 		for ( SPlayer p : players )
 		{
-			p.setProp ( "mobs", spawnedMobs.size ( ) );
+			p.setVar ( "mobs", spawnedMobs.size ( ) );
 		}
 	}
 	
@@ -635,11 +641,11 @@ public class PVEGame extends Minigame
 	{
 		Vector < SBoardStat > stats = new Vector < SBoardStat > ( );
 		stats.add ( new StaticStat ( p.getPlayer ( ).getDisplayName ( ) ) );
-		stats.add ( new PropStat ( p, "points", "# Points" ) );
+		stats.add ( new VarStat ( p, "points", "# Points" ) );
 		stats.add ( new StaticStat ( " " ) );
 		stats.add ( new StaticStat ( "PVE" ) );
-		stats.add ( new PropStat ( p, "wave", "Wave # " ) );
-		stats.add ( new PropStat ( p, "mobs", "# mobs left" ) );
+		stats.add ( new VarStat ( p, "wave", "Wave # " ) );
+		stats.add ( new VarStat ( p, "mobs", "# mobs left" ) );
 		stats.add ( new StaticStat ( "  " ) );
 		stats.add ( new TimerStat ( gameTimer ) );
 		return new SBoard ( "-------PVE-------", stats );

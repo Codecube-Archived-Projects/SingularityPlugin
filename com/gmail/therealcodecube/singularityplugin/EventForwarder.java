@@ -9,8 +9,8 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.gmail.therealcodecube.singularityplugin.node.Node;
 import com.gmail.therealcodecube.singularityplugin.player.SPlayer;
-import com.gmail.therealcodecube.singularityplugin.worldbehavior.Worlds;
 
 public class EventForwarder implements Listener
 {
@@ -34,35 +34,34 @@ public class EventForwarder implements Listener
 			{
 				e.setCancelled ( true );
 				p.useSpecialItem ( e.getItem ( ), e );
-				SingularityPlugin.info ( "Used a special item" );
 			}
 			else
 			{
-				Worlds.getWorld ( e.getPlayer ( ).getWorld ( ) ).onRightClick ( e );
+				Node.getNode ( e.getPlayer ( ).getWorld ( ) ).getBehavior ( ).onRightClick ( e );
 			}
 		}
-		else
+		else if ( e.getAction ( ) == Action.LEFT_CLICK_BLOCK || e.getAction ( ) == Action.LEFT_CLICK_AIR )
 		{
-			
+			Node.getNode ( e.getPlayer ( ).getWorld ( ) ).getBehavior ( ).onLeftClick ( e );
 		}
 	}
 	
 	@EventHandler
 	public void onDamage ( EntityDamageByEntityEvent e )
 	{
-		Worlds.getWorld ( e.getEntity ( ).getWorld ( ) ).onEntityDamage ( e );
+		Node.getNode ( e.getEntity ( ).getWorld ( ) ).getBehavior ( ).onEntityDamage ( e );
 	}
 	
 	@EventHandler
 	public void onEntityDeath ( EntityDeathEvent e )
 	{
-		Worlds.getWorld ( e.getEntity ( ).getWorld ( ) ).onEntityDeath ( e );
+		Node.getNode ( e.getEntity ( ).getWorld ( ) ).getBehavior ( ).onEntityDeath ( e );
 	}
 	
 	@EventHandler
 	public void onPlayerDeath ( PlayerDeathEvent e )
 	{
-		Worlds.getWorld ( e.getEntity ( ).getWorld ( ) ).onPlayerDeath ( e );
+		Node.getNode ( e.getEntity ( ).getWorld ( ) ).getBehavior ( ).onPlayerDeath ( e );
 	}
 	
 	@EventHandler

@@ -6,11 +6,11 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.darkblade12.particleeffect.ParticleEffect.OrdinaryColor;
-
 import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
 import com.gmail.therealcodecube.singularityplugin.player.SBoard;
 import com.gmail.therealcodecube.singularityplugin.player.SBoardStat;
@@ -22,12 +22,15 @@ import com.gmail.therealcodecube.singularityplugin.sgui.ButtonPressed;
 import com.gmail.therealcodecube.singularityplugin.sgui.DynamicGuiLink;
 import com.gmail.therealcodecube.singularityplugin.sgui.SButton;
 import com.gmail.therealcodecube.singularityplugin.sgui.ButtonInfo;
+import com.gmail.therealcodecube.singularityplugin.worldbehavior.SurvivalWorld;
 import com.gmail.therealcodecube.singularityplugin.worldbehavior.WorldBehavior;
+import com.gmail.therealcodecube.singularityplugin.worlds.griefgame.GriefGame;
 import com.gmail.therealcodecube.singularityplugin.worlds.pve.PVEGame;
 
 public class SpawnWorld extends WorldBehavior 
 {
 	private SButton navigation, store;
+	private static int MAX_PLAYERS = 32;
 	
 	public SpawnWorld ( World w )
 	{
@@ -39,13 +42,22 @@ public class SpawnWorld extends WorldBehavior
 	{
 		super.init ( );
 		
-		//Set up a teleporter
-		Teleporter tp = new Teleporter ( 
+		//Set up the teleporters
+		addProp ( new Teleporter ( 
 				new Location ( world, -278, 163, 318),
 				PVEGame.class,
-				new OrdinaryColor ( 200, 20, 20 ) );
-		addProp ( tp );
-		SingularityPlugin.info ( world.getName ( ) );
+				new OrdinaryColor ( 200, 20, 20 ) ) );
+		
+		addProp ( new Teleporter ( 
+				new Location ( world, -290, 163, 318),
+				SurvivalWorld.class,
+				new OrdinaryColor ( 20, 200, 20 ) ) );
+		
+		
+		addProp ( new Teleporter ( 
+				new Location ( world, -290, 163, 306),
+				GriefGame.class,
+				new OrdinaryColor ( 20, 20, 200 ) ) );
 		
 		//Set up the navigation button thing.
 		ItemStack navItem = new ItemStack ( Material.EYE_OF_ENDER );
@@ -106,6 +118,27 @@ public class SpawnWorld extends WorldBehavior
 		p.getPlayer ( ).setFoodLevel ( 20 );
 	}
 
+	@Override
+	public void onRightClick ( PlayerInteractEvent e )
+	{
+		super.onRightClick ( e );
+		e.setCancelled ( true );
+	}
+	
+	@Override
+	public void onLeftClick ( PlayerInteractEvent e )
+	{
+		super.onLeftClick ( e );
+		e.setCancelled ( true );
+	}
+	
+	//The fewer players there are, the higher it should be in the rankings. This evenly distributes the load.
+	@Override
+	public int getJoinRank ( )
+	{
+		return MAX_PLAYERS - players.size ( );
+	}
+	
 	//Creates an SBoard for spawn, using the player's display name and technical name.
 	private SBoard getBoard ( String n, String id )
 	{

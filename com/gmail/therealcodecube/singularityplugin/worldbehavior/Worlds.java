@@ -12,6 +12,7 @@ import com.gmail.therealcodecube.singularityplugin.worlds.griefgame.GriefGame;
 import com.gmail.therealcodecube.singularityplugin.worlds.pve.PVEGame;
 import com.gmail.therealcodecube.singularityplugin.worlds.spawn.SpawnWorld;
 
+@Deprecated
 public class Worlds 
 {
 	private static Vector < WorldBehavior > worlds = new Vector < WorldBehavior > ( );
@@ -69,6 +70,7 @@ public class Worlds
 	}
 	
 	//run this for every player to update their status, based on the rules of the world they are in.
+	@Deprecated
 	public static void updatePlayer ( SPlayer p )
 	{
 		try
@@ -83,6 +85,7 @@ public class Worlds
 	}
 	
 	//updates all players based on the rules of the world they are in.
+	@Deprecated
 	public static void updatePlayers ( )
 	{
 		for ( Player p : Bukkit.getOnlinePlayers ( ) )

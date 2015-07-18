@@ -6,7 +6,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
 import com.darkblade12.particleeffect.ParticleEffect;
-import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
 import com.gmail.therealcodecube.singularityplugin.worlds.pve.PVEMobs;
 
 public class ParticleTrailMobSpawner extends Prop

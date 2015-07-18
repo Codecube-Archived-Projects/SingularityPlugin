@@ -2,7 +2,6 @@ package com.gmail.therealcodecube.singularityplugin.sql;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Vector;
 
 import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
