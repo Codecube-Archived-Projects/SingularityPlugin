@@ -27,6 +27,7 @@ public class SPlayer
 	private static BukkitRunnable updateBoardsTask;
 	
 	private HashMap < String, Integer > tempData = new HashMap < String, Integer > ( );
+	private HashMap < String, String > fields = new HashMap < String, String > ( );
 	private HashMap < Integer, SButton > specialItems = new HashMap < Integer, SButton > ( );
 	
 	private Player player;
@@ -227,6 +228,45 @@ public class SPlayer
 		if ( isVar ( i ) )
 		{
 			tempData.remove ( i );
+		}
+	}
+	
+	//Checks if the player has a field named after the argument.
+	public boolean isField ( String i )
+	{
+		return fields.containsKey ( i );
+	}
+	
+	//Gets the value of a certain field.
+	public String getField ( String i )
+	{
+		if ( isField ( i ) )
+		{
+			return fields.get ( i );
+		}
+		else
+		{
+			return "";
+		}
+	}
+	
+	//Sets the value of a certain field.
+	public void setField ( String i, String v )
+	{
+		if ( isField ( i ) )
+		{
+			fields.remove ( i );
+		}
+		
+		fields.put ( i, v );
+	}
+	
+	//Removes the named field
+	public void removeField ( String i )
+	{
+		if ( isField ( i ) )
+		{
+			fields.remove ( i );
 		}
 	}
 	

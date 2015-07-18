@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -136,6 +137,11 @@ public class WorldBehavior
 		
 	}
 
+	public void onBlockBreak ( BlockBreakEvent e )
+	{
+		
+	}
+	
 	public void onEntityDamage ( EntityDamageByEntityEvent e ) 
 	{	
 		

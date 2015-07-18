@@ -3,6 +3,7 @@ package com.gmail.therealcodecube.singularityplugin;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -44,6 +45,12 @@ public class EventForwarder implements Listener
 		{
 			Node.getNode ( e.getPlayer ( ).getWorld ( ) ).getBehavior ( ).onLeftClick ( e );
 		}
+	}
+	
+	@EventHandler
+	public void onBlockBreak ( BlockBreakEvent e )
+	{
+		Node.getNode ( e.getBlock ( ).getWorld ( ) ).getBehavior ( ).onBlockBreak ( e );
 	}
 	
 	@EventHandler

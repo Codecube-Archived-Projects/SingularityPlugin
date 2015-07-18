@@ -3,21 +3,20 @@ package com.gmail.therealcodecube.singularityplugin.player;
 import com.gmail.therealcodecube.singularityplugin.sql.SQLValue;
 import com.gmail.therealcodecube.singularityplugin.sql.DefaultTables;
 
-public class SQLStat implements SBoardStat
+public class SQLStat extends FormattedStat
 {
 	private String player;
 	private String stat;
-	private String format;
 	
 	//Initializes this SBoardStat with a player name, stat name, and format code.
 	public SQLStat ( String p, String s, String f )
 	{
+		super ( f );
 		player = p;
 		stat = s;
-		format = f;
 	}
 	
-	public String formatStat ( )
+	public String getValue ( )
 	{
 		SQLValue v = DefaultTables.players.getProperty ( player, stat );
 		String value;
@@ -31,7 +30,6 @@ public class SQLStat implements SBoardStat
 			value =  v.getStringValue ( );
 		}
 		
-		String toReturn = format;
-		return toReturn.replaceAll ( "#", value );
+		return value;
 	}
 }

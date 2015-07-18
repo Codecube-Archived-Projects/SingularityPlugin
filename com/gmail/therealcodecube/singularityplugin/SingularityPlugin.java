@@ -64,7 +64,7 @@ public class SingularityPlugin extends JavaPlugin
 		//Test the new node system
 		Node pve = new Node ( Bukkit.getServer ( ).getWorld ( "PVE" ) );
 		pve.setBehavior ( PVEGame.class );
-		Node grief = new Node ( Bukkit.getServer ( ).getWorld ( "GriefWars" ) );
+		Node grief = new Node ( Bukkit.getServer ( ).getWorld ( "griefWars" ) );
 		grief.setBehavior ( GriefGame.class );
 		Node spawn = new Node ( Bukkit.getServer ( ).getWorld ( "world" ) );
 		spawn.setBehavior ( SpawnWorld.class );

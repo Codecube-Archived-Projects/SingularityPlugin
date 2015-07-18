@@ -1,33 +1,30 @@
 package com.gmail.therealcodecube.singularityplugin.player;
 
-public class VarStat implements SBoardStat
+public class VarStat extends NumericalFormattedStat
 {
 	private SPlayer player;
 	private String propName;
-	private String format;
 	
 	//p is the player this stat is tracking
 	//n is the var this stat is looking for
 	//f is the formatting code
 	public VarStat ( SPlayer p, String n )
 	{
+		super ( p + ": #" );
 		player = p;
 		propName = n;
-		format = propName + ": #";
 	}
 	
 	public VarStat ( SPlayer p, String n, String f )
 	{
+		super ( f );
 		player = p;
 		propName = n;
-		format = f;
 	}
 
 	@Override
-	public String formatStat ( ) 
+	public int getValue ( )
 	{
-		String value = Integer.toString ( player.getVar ( propName ) );
-		String toReturn = format;
-		return toReturn.replaceAll ( "#", value );
+		return player.getVar ( propName );
 	}
 }
