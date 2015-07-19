@@ -10,7 +10,7 @@ public class VarStat extends NumericalFormattedStat
 	//f is the formatting code
 	public VarStat ( SPlayer p, String n )
 	{
-		super ( p + ": #" );
+		super ( p + "~: #" );
 		player = p;
 		propName = n;
 	}

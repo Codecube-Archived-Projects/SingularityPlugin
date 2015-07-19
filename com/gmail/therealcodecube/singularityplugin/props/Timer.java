@@ -60,7 +60,7 @@ public class Timer extends Prop
 		int timerTime = (int) ( duration - ( System.currentTimeMillis ( ) - startTime ) ) / 1000 ;
 		int seconds = timerTime % 60, 
 			minutes = ( int ) Math.floor ( ( timerTime - seconds ) / 60.0 ), 
-			hours = ( int ) Math.floor( ( timerTime - minutes - seconds ) / 60.0 );
+			hours = ( int ) Math.floor( ( timerTime - ( minutes * 60 ) - seconds ) / 60.0 );
 		String sSeconds = String.format( "%02d", seconds ),
 			sMinutes = String.format( "%02d", minutes );
 		

@@ -10,6 +10,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import be.maximvdw.titlemotd.ui.Title;
+
+import com.gmail.therealcodecube.singularityplugin.player.FieldStat;
 import com.gmail.therealcodecube.singularityplugin.player.SBoard;
 import com.gmail.therealcodecube.singularityplugin.player.SBoardStat;
 import com.gmail.therealcodecube.singularityplugin.player.SPlayer;
@@ -60,6 +63,7 @@ public class GriefGame extends Minigame
 		p.getPlayer ( ).setHealth ( 20.0 );
 		p.getPlayer ( ).getInventory ( ).clear ( );
 		p.setVar ( "oreMined", 0 );
+		p.setField ( "class", "Lumberjack" );
 		
 		p.setSpecialItem ( 4, classSelector );
 	}
@@ -71,6 +75,12 @@ public class GriefGame extends Minigame
 		{
 			e.setCancelled ( true );
 		}
+	}
+	
+	@Override
+	public void updatePlayer ( SPlayer p )
+	{
+		p.getPlayer ( ).setFoodLevel ( 17 );
 	}
 	
 	@Override
@@ -91,12 +101,25 @@ public class GriefGame extends Minigame
 	}
 	
 	@Override
+	public void startGame ( )
+	{
+		gameTimer.setDuration ( 5 * 60 * 1000L );
+		
+		Title ti = new Title ( "The War Has Begun!", "Build forts and prepare for the attack!", 15, 40, 15 );
+		ti.setTimingsToTicks ( );
+		for ( SPlayer p : players )
+		{
+			ti.send ( p.getPlayer ( ) );
+			GriefClass.getClass ( p.getField ( "class" ) ).equip ( p );
+		}
+	}
+	
+	@Override
 	protected SBoard getBoard ( SPlayer p )
 	{
 		Vector < SBoardStat > stats = new Vector < SBoardStat > ( );
 		stats.add ( new StaticStat ( p.getDisplayName ( ) ) );
-		//The player's class name should go here.
-		stats.add ( new StaticStat ( "Someone" ) );
+		stats.add ( new FieldStat ( p, "class", "#" ) );
 		stats.add ( new StaticStat ( " " ) );
 		stats.add ( new TimerStat  ( gameTimer ) );
 		return new SBoard ( "----GriefWars----", stats );

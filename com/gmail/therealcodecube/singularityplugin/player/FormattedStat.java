@@ -15,7 +15,8 @@ public abstract class FormattedStat implements SBoardStat
 	{
 		String tr = formatCode;
 		//Replace all instances of # with the value.
-		tr.replaceAll ( "#", getValue ( ) );
+		String value = getValue ( );
+		tr = tr.replaceAll ( "#", value );
 		return tr;
 	}
 

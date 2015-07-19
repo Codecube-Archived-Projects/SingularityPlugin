@@ -15,10 +15,10 @@ public abstract class NumericalFormattedStat implements SBoardStat
 	{
 		String tr = formatCode;
 		//Replace all instances of # with the value
-		tr.replace ( "#", getValue ( ) + "" );
+		tr = tr.replace ( "#", getValue ( ) + "" );
 		//Replace all instances of ~ with either an empty space or an s.
 		//E.G. # plum~ could become 1 plum or 200 plums
-		tr.replace ( "~", getValue ( ) == 1 ? "" : "s" );
+		tr = tr.replace ( "~", getValue ( ) == 1 ? "" : "s" );
 		return tr;
 	}
 }
