@@ -2,9 +2,12 @@ package com.gmail.therealcodecube.singularityplugin.props;
 
 import org.bukkit.Location;
 
-public class Prop 
+import com.gmail.therealcodecube.singularityplugin.hologram.ParticleHologram;
+
+public abstract class Prop 
 {
 	protected Location location;
+	protected ParticleHologram debugHologram = null;
 	
 	public Prop ( )
 	{
@@ -17,13 +20,16 @@ public class Prop
 	}
 	
 	//This function can be used to create new props from in-game commands, and is intended to be overridden by subclasses.
-	public static Prop create ( Location l, String [ ] args )
+	//public abstract static Prop create ( Location l, String [ ] args )
+	
+	public void renderDebugHologram ( )
 	{
-		return new Prop ( l );
+		if ( debugHologram != null )
+		{
+			debugHologram.move ( location );
+			debugHologram.render ( );
+		}
 	}
 	
-	public boolean update ( )
-	{
-		return true;
-	}
+	public abstract boolean update ( );
 }

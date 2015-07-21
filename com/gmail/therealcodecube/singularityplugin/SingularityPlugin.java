@@ -26,6 +26,7 @@ public class SingularityPlugin extends JavaPlugin
 {
 	static Location spawn;
 	static MultiverseCore multiverse;
+	public static final boolean RENDER_DEBUG_HOLOGRAMS = false;
 	
 	@Override
 	public void onEnable ( )

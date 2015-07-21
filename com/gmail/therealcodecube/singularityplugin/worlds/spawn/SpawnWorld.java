@@ -12,11 +12,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.darkblade12.particleeffect.ParticleEffect.OrdinaryColor;
 import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
+import com.gmail.therealcodecube.singularityplugin.hologram.ParticleHologram;
+import com.gmail.therealcodecube.singularityplugin.hologram.ParticleLine;
 import com.gmail.therealcodecube.singularityplugin.player.SBoard;
 import com.gmail.therealcodecube.singularityplugin.player.SBoardStat;
 import com.gmail.therealcodecube.singularityplugin.player.SPlayer;
 import com.gmail.therealcodecube.singularityplugin.player.SQLStat;
 import com.gmail.therealcodecube.singularityplugin.player.StaticStat;
+import com.gmail.therealcodecube.singularityplugin.props.HologramDisplay;
 import com.gmail.therealcodecube.singularityplugin.props.Teleporter;
 import com.gmail.therealcodecube.singularityplugin.sgui.ButtonPressed;
 import com.gmail.therealcodecube.singularityplugin.sgui.DynamicGuiLink;
@@ -58,6 +61,16 @@ public class SpawnWorld extends WorldBehavior
 				new Location ( world, -290, 163, 306),
 				GriefGame.class,
 				new OrdinaryColor ( 20, 20, 200 ) ) );
+		
+		//Test the hologram system.
+		ParticleLine l = ParticleLine.fromOffset ( 
+				new Location ( world, -279.0, 162.0, 307.0 ), 
+				new Location ( world, 2.0, 2.0, -2.0 ), 
+				new OrdinaryColor ( 0, 255, 255 ) );
+		ParticleHologram h = new ParticleHologram ( );
+		h.addShape ( l );
+		HologramDisplay d = new HologramDisplay ( h );
+		addProp ( d );
 		
 		//Set up the navigation button thing.
 		ItemStack navItem = new ItemStack ( Material.EYE_OF_ENDER );

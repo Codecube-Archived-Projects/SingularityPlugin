@@ -4,6 +4,8 @@ import org.bukkit.Location;
 
 import com.darkblade12.particleeffect.ParticleEffect;
 import com.darkblade12.particleeffect.ParticleEffect.OrdinaryColor;
+import com.gmail.therealcodecube.singularityplugin.hologram.ParticleHologram;
+import com.gmail.therealcodecube.singularityplugin.hologram.ParticleLine;
 import com.gmail.therealcodecube.singularityplugin.node.Node;
 import com.gmail.therealcodecube.singularityplugin.player.SPlayer;
 import com.gmail.therealcodecube.singularityplugin.worldbehavior.WorldBehavior;
@@ -99,6 +101,14 @@ public class Teleporter extends Prop
 		g = g + ( 255 - g ) / 2;
 		b = b + ( 255 - b ) / 2;
 		lcolor = new OrdinaryColor ( r, g, b );
+		
+		//Create a debug hologram (not that we need one, but still.)
+		debugHologram = new ParticleHologram ( location );
+		Location c = new Location ( l.getWorld ( ), l.getX ( ), l.getY ( ) + 1.5, l.getZ ( ) );
+		debugHologram.addShape ( ParticleLine.fromCenter ( c, new Location ( c.getWorld ( ), 1.0, 1.5, 1.0 ), o ) );
+		debugHologram.addShape ( ParticleLine.fromCenter ( c, new Location ( c.getWorld ( ), -1.0, 1.5, 1.0 ), o ) );
+		debugHologram.addShape ( ParticleLine.fromCenter ( c, new Location ( c.getWorld ( ), 1.0, -1.5, 1.0 ), o ) );
+		debugHologram.addShape ( ParticleLine.fromCenter ( c, new Location ( c.getWorld ( ), -1.0, -1.5, 1.0 ), o ) );
 		
 		//Can't record the origin yet, because the origin is probably being created when this constructor is called!
 		origin = null;

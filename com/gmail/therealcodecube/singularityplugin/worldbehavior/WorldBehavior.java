@@ -43,6 +43,10 @@ public class WorldBehavior
 		while ( propIterator.hasNext ( ) )
 		{
 			Prop p = propIterator.next ( );
+			if ( SingularityPlugin.RENDER_DEBUG_HOLOGRAMS )
+			{
+				p.renderDebugHologram ( );
+			}
 			if ( !p.update ( ) )
 			{
 				propIterator.remove ( );
