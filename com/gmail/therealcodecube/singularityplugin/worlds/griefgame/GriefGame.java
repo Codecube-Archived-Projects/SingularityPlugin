@@ -2,16 +2,22 @@ package com.gmail.therealcodecube.singularityplugin.worlds.griefgame;
 
 import java.util.Vector;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import be.maximvdw.titlemotd.ui.Title;
 
+import com.darkblade12.particleeffect.ParticleEffect;
+import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
 import com.gmail.therealcodecube.singularityplugin.player.FieldStat;
 import com.gmail.therealcodecube.singularityplugin.player.SBoard;
 import com.gmail.therealcodecube.singularityplugin.player.SBoardStat;
@@ -63,17 +69,77 @@ public class GriefGame extends Minigame
 		p.getPlayer ( ).setHealth ( 20.0 );
 		p.getPlayer ( ).getInventory ( ).clear ( );
 		p.setVar ( "oreMined", 0 );
-		p.setField ( "class", "Lumberjack" );
+		p.setField ( "class", "Choose a class!" );
 		
 		p.setSpecialItem ( 4, classSelector );
+		
+		//If this is the first player...
+		if ( players.size ( ) == 1 )
+		{
+			//This time puts the sun and moon in such a position that there is a red glow over the red side and a blue glow over the blue side.
+			world.setTime ( 23000 );
+		}
 	}
 	
 	@Override
-	public void onLeftClick ( PlayerInteractEvent e )
+	public void onRightClick ( PlayerInteractEvent e )
 	{
-		if ( e.getClickedBlock ( ).getType ( ) != Material.IRON_ORE )
+		//If it is a fire extinguisher...
+		if ( ( e.getItem ( ).getType ( ) == Material.PRISMARINE_SHARD ) && 
+				( ChatColor.stripColor ( e.getItem ( ).getItemMeta ( ).getDisplayName ( ) ).equals ( "Fire Extinguisher" ) ) )
 		{
 			e.setCancelled ( true );
+			//If pointing at a fire block...
+			Block b = e.getClickedBlock ( ).getRelative ( e.getBlockFace ( ) );
+			if ( b.getType ( ) == Material.FIRE )
+			{
+				Location l = b.getLocation ( );
+				l.setX ( l.getX ( ) + 0.5 );
+				l.setY ( l.getY ( ) + 0.5 );
+				l.setZ ( l.getZ ( ) + 0.5 );
+				SingularityPlugin.info ( l.toString ( ) );
+				ParticleEffect.CLOUD.display ( 0.5f, 0.5f, 0.5f, 0, 80, l, 500.0 );
+				b.setType ( Material.AIR );
+			}
+		}
+		
+		//If it is an arc welder...
+		if ( ( e.getItem ( ).getType ( ) == Material.REDSTONE_TORCH_ON ) && 
+				( ChatColor.stripColor ( e.getItem ( ).getItemMeta ( ).getDisplayName ( ) ) == "Arc Welder" ) )
+		{
+			e.setCancelled ( true );
+			//If the player has the iron.
+			PlayerInventory i = e.getPlayer ( ).getInventory ( );
+			if ( i.contains ( Material.IRON_INGOT ) )
+			{
+				Block b = e.getClickedBlock ( ).getRelative ( e.getBlockFace ( ) );
+				//Make sure that we are placing the welded block in an empty space.
+				if ( b.getType ( ) == Material.AIR )
+				{
+					b.setType ( Material.IRON_BLOCK );
+				}
+				
+				//Remove two iron ingots.
+				ItemStack [ ] isa = i.getContents ( );
+				int l = 0;
+				for ( l = 0; l < isa.length; l++ )
+				{
+					if ( isa [ l ].getType ( ) == Material.IRON_INGOT ) { break; }
+				}
+				ItemStack is = i.getItem ( l );
+				is.setAmount ( is.getAmount ( ) - 2 );
+				i.setItem ( l, is );
+				
+				int loc = i.getHeldItemSlot ( );
+				i.remove ( Material.REDSTONE_TORCH_ON );
+				//Code snippet from WELDER enum instance.
+				ItemStack weld = new ItemStack ( Material.REDSTONE_TORCH_ON );
+				ItemMeta m = weld.getItemMeta ( );
+				m.addEnchant ( Enchantment.FIRE_ASPECT, 1, true );
+				m.setDisplayName ( "Arc Welder" );
+				weld.setItemMeta ( m );
+				i.setItem ( loc, weld );
+			}
 		}
 	}
 	
