@@ -175,7 +175,7 @@ public enum GriefClass
 			p.getInventory ( ).addItem ( weld );
 		}
 	},
-	CONTRACTOR ( Material.BRICK, ChatColor.RESET.toString ( ) + ChatColor.GREEN + "Contractor",  
+	CONTRACTOR ( Material.CLAY_BRICK, ChatColor.RESET.toString ( ) + ChatColor.GREEN + "Contractor",  
 			Arrays.asList ( new String [ ] { 
 			ChatColor.RESET + "\"Controls a legion of builders.\"", 
 			ChatColor.GRAY + "The contractor can mark out an area,",

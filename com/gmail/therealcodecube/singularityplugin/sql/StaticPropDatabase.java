@@ -105,7 +105,7 @@ public class StaticPropDatabase
         catch (Exception ex) 
         {
         	ex.printStackTrace ( );
-        	return new Prop ( );
+        	return null;
         }
 	}
 }

@@ -20,15 +20,7 @@ public class Worlds
 	
 	public static void init ( )
 	{
-		addWorld ( new PVEGame ( Bukkit.getWorld ( "PVE" ) ) );
-		addWorld ( new SpawnWorld ( Bukkit.getWorld ( "world" ) ) );
-		addWorld ( new SurvivalWorld ( Bukkit.getWorld ( "survival" ) ) );
-		addWorld ( new GriefGame ( Bukkit.getWorld ( "griefWars" ) ) );
-		
-		for ( WorldBehavior m: worlds )
-		{
-			m.init ( );
-		}
+
 	}
 	
 	private static void addWorld ( WorldBehavior m )

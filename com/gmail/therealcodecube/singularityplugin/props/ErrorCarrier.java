@@ -8,4 +8,5 @@ public class ErrorCarrier extends Prop
 	public String getError ( ) { return errors [ 0 ]; }
 	public String [ ] getErrors ( ) { return errors; }
 	public void addError ( String s ) { errors [ errors.length ] = s; }
+	public boolean update ( ) { return false; }
 }

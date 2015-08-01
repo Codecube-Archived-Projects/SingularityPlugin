@@ -1,6 +1,7 @@
 package com.gmail.therealcodecube.singularityplugin;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -106,5 +107,18 @@ public class Util
 				y = a.getY ( ) * b,
 				z = a.getZ ( ) * b;
 		return new Location ( a.getWorld ( ), x, y, z );
+	}
+	
+	private static Random random = new Random ( );
+	//Returns a random int in the specified range.
+	public static int random ( int lower, int upper )
+	{
+		return ( int ) Math.floor ( ( random.nextDouble ( ) * ( upper - lower ) ) + lower ); 
+	}
+	
+	//Returns a random boolean
+	public static boolean randomBoolean ( )
+	{
+		return random.nextBoolean ( );
 	}
 }

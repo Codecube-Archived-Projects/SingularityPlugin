@@ -17,20 +17,40 @@ import org.bukkit.inventory.meta.ItemMeta;
 import be.maximvdw.titlemotd.ui.Title;
 
 import com.darkblade12.particleeffect.ParticleEffect;
+import com.darkblade12.particleeffect.ParticleEffect.OrdinaryColor;
 import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
+import com.gmail.therealcodecube.singularityplugin.Util;
+import com.gmail.therealcodecube.singularityplugin.hologram.ParticleGrid;
+import com.gmail.therealcodecube.singularityplugin.hologram.ParticleHologram;
 import com.gmail.therealcodecube.singularityplugin.player.FieldStat;
 import com.gmail.therealcodecube.singularityplugin.player.SBoard;
 import com.gmail.therealcodecube.singularityplugin.player.SBoardStat;
 import com.gmail.therealcodecube.singularityplugin.player.SPlayer;
 import com.gmail.therealcodecube.singularityplugin.player.StaticStat;
 import com.gmail.therealcodecube.singularityplugin.player.TimerStat;
+import com.gmail.therealcodecube.singularityplugin.props.HologramDisplay;
+import com.gmail.therealcodecube.singularityplugin.props.PlayerSpawnPoint;
+import com.gmail.therealcodecube.singularityplugin.props.Prop;
 import com.gmail.therealcodecube.singularityplugin.sgui.SGuiLink;
 import com.gmail.therealcodecube.singularityplugin.worldbehavior.Minigame;
 
 public class GriefGame extends Minigame 
 {
 	private static final int MAX_ORE = 5;
+	private static final String RANDOM_TEAM = ChatColor.RED + "R" + ChatColor.BLUE + "a" + ChatColor.RED + "n" + ChatColor.BLUE + "d" +
+			ChatColor.RED + "o" + ChatColor.BLUE + "m " + ChatColor.RED + "T" + ChatColor.BLUE + "e" +
+			ChatColor.RED + "a" + ChatColor.BLUE + "m";
+	private static final int NO_TEAM = 0;
+	public static final int RED_TEAM = 1;
+	public static final int BLUE_TEAM = 2;
+	
 	private static SGuiLink classSelector;
+	private static Vector < PlayerSpawnPoint > redSpawnPoints = null;
+	private static Vector < PlayerSpawnPoint > blueSpawnPoints = null;
+	
+	private int redTeamMembers = 0;
+	private int blueTeamMembers = 0;
+	private int maxPlayersOnTeam = 0;
 	
 	public GriefGame ( World w ) 
 	{
@@ -58,7 +78,44 @@ public class GriefGame extends Minigame
 			spawn = new Location ( getWorld ( ), 13, 33, 7.5 );
 		}
 		
+		//Set spawn points for when the game actually starts.
+		if ( redSpawnPoints == null )
+		{
+			redSpawnPoints = new Vector < PlayerSpawnPoint > ( );
+			blueSpawnPoints = new Vector < PlayerSpawnPoint > ( );
+			
+			World w = world;
+			
+			redSpawnPoints.add ( new PlayerSpawnPoint ( new Location ( w, 17, 34, 28 ) ) );
+			redSpawnPoints.add ( new PlayerSpawnPoint ( new Location ( w, 48, 33, 34 ) ) );
+			redSpawnPoints.add ( new PlayerSpawnPoint ( new Location ( w, 53, 34, 16 ) ) );
+			redSpawnPoints.add ( new PlayerSpawnPoint ( new Location ( w, 47, 38, 3 ) ) );
+			redSpawnPoints.add ( new PlayerSpawnPoint ( new Location ( w, 43, 35, -12 ) ) );
+			redSpawnPoints.add ( new PlayerSpawnPoint ( new Location ( w, 24, 32, -5 ) ) );
+			
+			blueSpawnPoints.add ( new PlayerSpawnPoint ( new Location ( w, -2, 31, -7 ) ) );
+			blueSpawnPoints.add ( new PlayerSpawnPoint ( new Location ( w, -18, 33, -2 ) ) );
+			blueSpawnPoints.add ( new PlayerSpawnPoint ( new Location ( w, -20, 39, 17 ) ) );
+			blueSpawnPoints.add ( new PlayerSpawnPoint ( new Location ( w, -13, 34, 29 ) ) );
+			blueSpawnPoints.add ( new PlayerSpawnPoint ( new Location ( w, 7, 33, 34 ) ) );
+			blueSpawnPoints.add ( new PlayerSpawnPoint ( new Location ( w, 7, 33, 5 ) ) );
+		}
+		
+		Location s = redSpawnPoints.get ( 5 ).getLocation ( );
+		Location e = new Location ( s.getWorld ( ), s.getX ( ) + 2, s.getY ( ) + 2, s.getZ ( ) + 2 );
+		
+		ParticleGrid grid = new ParticleGrid ( s, e, new OrdinaryColor ( 255, 0, 0 ) );
+		ParticleHologram ph = new ParticleHologram ( );
+		ph.addShape ( grid );
+		Prop holo = new HologramDisplay ( ph );
+		addProp ( holo );
+		
 		super.init ( );
+	}
+	
+	private void calculateMaxPlayersOnTeam ( )
+	{
+		maxPlayersOnTeam = ( int ) Math.ceil ( players.size ( ) / 2.0 );
 	}
 	
 	@Override
@@ -69,7 +126,9 @@ public class GriefGame extends Minigame
 		p.getPlayer ( ).setHealth ( 20.0 );
 		p.getPlayer ( ).getInventory ( ).clear ( );
 		p.setVar ( "oreMined", 0 );
+		p.setVar ( "team", NO_TEAM );
 		p.setField ( "class", "Choose a class!" );
+		p.setField ( "team", RANDOM_TEAM );
 		
 		p.setSpecialItem ( 4, classSelector );
 		
@@ -79,6 +138,25 @@ public class GriefGame extends Minigame
 			//This time puts the sun and moon in such a position that there is a red glow over the red side and a blue glow over the blue side.
 			world.setTime ( 23000 );
 		}
+		
+		calculateMaxPlayersOnTeam ( );
+	}
+	
+	@Override
+	public void leaveWorld ( SPlayer p )
+	{
+		super.leaveWorld ( p );
+		
+		if ( p.getVar ( "team" ) == RED_TEAM )
+		{
+			redTeamMembers--;
+		}
+		else if ( p.getVar ( "team" ) == BLUE_TEAM )
+		{
+			blueTeamMembers--;
+		}
+		
+		calculateMaxPlayersOnTeam ( );
 	}
 	
 	@Override
@@ -177,6 +255,29 @@ public class GriefGame extends Minigame
 		{
 			ti.send ( p.getPlayer ( ) );
 			GriefClass.getClass ( p.getField ( "class" ) ).equip ( p );
+			if ( p.getVar ( "team" ) == NO_TEAM )
+			{
+				//Pick a random team
+				if ( redTeamMembers < maxPlayersOnTeam )
+				{
+					p.setVar ( "team", RED_TEAM );
+					redTeamMembers++;
+				}
+				else
+				{
+					p.setVar ( "team", BLUE_TEAM );
+					blueTeamMembers++;
+				}
+			}
+			
+			if ( p.getVar ( "team" ) == RED_TEAM )
+			{
+				redSpawnPoints.get ( Util.random ( 0, redSpawnPoints.size ( ) ) ).spawnPlayer ( p );
+			}
+			else
+			{
+				blueSpawnPoints.get ( Util.random ( 0, blueSpawnPoints.size ( ) ) ).spawnPlayer ( p );
+			}
 		}
 	}
 	
@@ -185,6 +286,7 @@ public class GriefGame extends Minigame
 	{
 		Vector < SBoardStat > stats = new Vector < SBoardStat > ( );
 		stats.add ( new StaticStat ( p.getDisplayName ( ) ) );
+		stats.add ( new FieldStat ( p, "team", "#" ) );
 		stats.add ( new FieldStat ( p, "class", "#" ) );
 		stats.add ( new StaticStat ( " " ) );
 		stats.add ( new TimerStat  ( gameTimer ) );

@@ -19,6 +19,11 @@ public abstract class Prop
 		location = l;
 	}
 	
+	public Location getLocation ( )
+	{
+		return location;
+	}
+	
 	//This function can be used to create new props from in-game commands, and is intended to be overridden by subclasses.
 	//public abstract static Prop create ( Location l, String [ ] args )
 	

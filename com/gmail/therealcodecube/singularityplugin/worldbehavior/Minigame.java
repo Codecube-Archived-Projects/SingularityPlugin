@@ -35,7 +35,6 @@ public class Minigame extends WorldBehavior
 	public Minigame ( World w ) 
 	{
 		super ( w );
-		init ( );
 	}
 	
 	@Override
