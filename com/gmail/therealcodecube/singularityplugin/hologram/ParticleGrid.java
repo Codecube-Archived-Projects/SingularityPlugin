@@ -4,6 +4,7 @@ import org.bukkit.Location;
 
 import com.darkblade12.particleeffect.ParticleEffect.OrdinaryColor;
 import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
+import com.gmail.therealcodecube.singularityplugin.Util;
 
 public class ParticleGrid extends ParticleShape 
 {
@@ -15,10 +16,14 @@ public class ParticleGrid extends ParticleShape
 	public ParticleGrid ( Location s, Location e, OrdinaryColor o )
 	{
 		super ( s, DEFAULT_RESOLUTION, o );
+		Util.sortLocations ( s, e );
+		e.setX ( e.getX ( ) + 1 );
+		e.setY ( e.getY ( ) + 1 );
+		e.setZ ( e.getZ ( ) + 1 );
+		origin = s;
 		xSteps = ( int ) Math.ceil ( e.getX ( ) - s.getX ( ) );
 		ySteps = ( int ) Math.ceil ( e.getY ( ) - s.getY ( ) );
 		zSteps = ( int ) Math.ceil ( e.getZ ( ) - s.getZ ( ) );
-		SingularityPlugin.info ( "X:" + xSteps + " Y:" + ySteps + " Z:" + zSteps );
 	}
 	
 	private void renderXY ( )

@@ -121,4 +121,32 @@ public class Util
 	{
 		return random.nextBoolean ( );
 	}
+	
+	//Sorts the two locations. One location will contain all the smaller coords, and the other al the larger coords.
+	//The points will still describe the same rectangular volume (provided that's what they are being used for)
+	//but will be optimized for for-loop applications.
+	public static void sortLocations ( Location s, Location e )
+	{
+		double  x1 = s.getX ( ),
+				y1 = s.getY ( ),
+				z1 = s.getZ ( ),
+				x2 = e.getX ( ),
+				y2 = e.getY ( ),
+				z2 = e.getZ ( );
+		if ( x1 > x2 )
+		{
+			s.setX ( x2 );
+			e.setX ( x1 );
+		}
+		if ( y1 > y2 )
+		{
+			s.setY ( y2 );
+			e.setY ( y1 );
+		}
+		if ( z1 > z2 )
+		{
+			s.setZ ( z2 );
+			e.setZ ( z1 );
+		}
+	}
 }
