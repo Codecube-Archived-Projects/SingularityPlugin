@@ -69,7 +69,7 @@ public class GriefGame extends Minigame
 			ItemMeta m = i.getItemMeta ( );
 			m.setDisplayName ( "Choose class" );
 			i.setItemMeta ( m );
-			classSelector = new SGuiLink ( i, GriefClass.getClassGui ( ) );
+			classSelector = new SGuiLink ( i, GriefClasses.getClassGui ( ) );
 		}
 		
 		//Set spawn point
@@ -245,7 +245,7 @@ public class GriefGame extends Minigame
 		for ( SPlayer p : players )
 		{
 			ti.send ( p.getPlayer ( ) );
-			GriefClass.getClass ( p.getField ( "class" ) ).equip ( p );
+			GriefClasses.getClass ( p.getField ( "class" ) ).equip ( p );
 			if ( p.getVar ( "team" ) == NO_TEAM )
 			{
 				//Pick a random team

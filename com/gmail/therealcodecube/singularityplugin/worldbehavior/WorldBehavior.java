@@ -86,6 +86,7 @@ public class WorldBehavior
 
 	public void leaveWorld ( SPlayer p )
 	{
+		p.resetCustomPlayerData ( );
 		players.remove ( p );
 	}
 

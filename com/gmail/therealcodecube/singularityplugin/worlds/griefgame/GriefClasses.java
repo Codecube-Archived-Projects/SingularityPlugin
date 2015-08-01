@@ -16,7 +16,7 @@ import com.gmail.therealcodecube.singularityplugin.player.SPlayer;
 import com.gmail.therealcodecube.singularityplugin.sgui.SButton;
 import com.gmail.therealcodecube.singularityplugin.sgui.SGui;
 
-public enum GriefClass 
+public enum GriefClasses 
 {
 	LUMBERJACK ( Material.IRON_AXE, ChatColor.RESET.toString ( ) + ChatColor.RED + "Lumberjack", 
 			Arrays.asList ( new String [ ] { 
@@ -206,7 +206,7 @@ public enum GriefClass
 	private String name;
 	private List < String > description = new ArrayList < String > ( );
 	
-	private GriefClass ( Material i, String n, List < String > l )
+	private GriefClasses ( Material i, String n, List < String > l )
 	{
 		displayItem = i;
 		name = n;
@@ -244,16 +244,16 @@ public enum GriefClass
 	public static SGui getClassGui ( )
 	{
 		SGui tr = new SGui ( "Choose a class", 9 );
-		for ( GriefClass c : GriefClass.values ( ) )
+		for ( GriefClasses c : GriefClasses.values ( ) )
 		{
 			tr.addButton ( c.getButton ( ) );
 		}
 		return tr;
 	}
 	
-	public static GriefClass getClass ( String n )
+	public static GriefClasses getClass ( String n )
 	{
-		for ( GriefClass c : GriefClass.values ( ) )
+		for ( GriefClasses c : GriefClasses.values ( ) )
 		{
 			if ( c.getName ( ) == n )
 			{

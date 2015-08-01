@@ -6,9 +6,9 @@ import com.gmail.therealcodecube.singularityplugin.sgui.ButtonPressed;
 
 public class GriefClassClicked implements ButtonPressed 
 {
-	private GriefClass griefClass;
+	private GriefClasses griefClass;
 	
-	public GriefClassClicked ( GriefClass c )
+	public GriefClassClicked ( GriefClasses c )
 	{
 		griefClass = c;
 	}
