@@ -18,8 +18,8 @@ import com.gmail.therealcodecube.singularityplugin.sgui.SGui;
 import com.gmail.therealcodecube.singularityplugin.sgui.SButton;
 import com.gmail.therealcodecube.singularityplugin.sql.DefaultTables;
 import com.gmail.therealcodecube.singularityplugin.sql.SQLValue;
+import com.gmail.therealcodecube.singularityplugin.worldbehavior.MinigameClass;
 import com.gmail.therealcodecube.singularityplugin.worldbehavior.WorldBehavior;
-import com.gmail.therealcodecube.singularityplugin.worldbehavior.Worlds;
 
 public class SPlayer
 {
@@ -29,6 +29,7 @@ public class SPlayer
 	private HashMap < String, Integer > tempData = new HashMap < String, Integer > ( );
 	private HashMap < String, String > fields = new HashMap < String, String > ( );
 	private HashMap < Integer, SButton > specialItems = new HashMap < Integer, SButton > ( );
+	private MinigameClass minigameClass = null;
 	
 	private Player player;
 	private SBoard board = null;
@@ -172,6 +173,24 @@ public class SPlayer
 	public Player getPlayer ( )
 	{
 		return player;
+	}
+	
+	//Sets this player's minigame class
+	public void setMinigameClass ( MinigameClass m )
+	{
+		minigameClass = m;
+	}
+	
+	//Gets the player's minigame class
+	public MinigameClass getMinigameClass ( )
+	{
+		return minigameClass;
+	}
+	
+	//Sets the player's minigame class to null.
+	public void removeMinigameClass ( )
+	{
+		minigameClass = null;
 	}
 	
 	//Send this player a message.

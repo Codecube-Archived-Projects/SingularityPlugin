@@ -101,15 +101,6 @@ public class GriefGame extends Minigame
 			blueSpawnPoints.add ( new PlayerSpawnPoint ( new Location ( w, 7, 33, 5 ) ) );
 		}
 		
-		Location s = redSpawnPoints.get ( 5 ).getLocation ( );
-		Location e = new Location ( s.getWorld ( ), s.getX ( ) + 2, s.getY ( ) + 2, s.getZ ( ) + 2 );
-		
-		ParticleGrid grid = new ParticleGrid ( s, e, new OrdinaryColor ( 255, 0, 0 ) );
-		ParticleHologram ph = new ParticleHologram ( );
-		ph.addShape ( grid );
-		Prop holo = new HologramDisplay ( ph );
-		addProp ( holo );
-		
 		super.init ( );
 	}
 	
