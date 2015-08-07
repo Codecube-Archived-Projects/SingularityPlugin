@@ -60,9 +60,13 @@ public class ParticleLine extends ParticleShape
 	@Override
 	public void render() 
 	{
+		Location dl = new Location ( origin.getWorld ( ), 0, 0, 0 );
 		for ( int i = 0; i < steps; i++ )
 		{
-			drawParticle ( Util.add ( ( Util.multiply ( step, i ) ), origin ) );
+			dl.setX ( origin.getX ( ) + ( step.getX ( ) * i ) );
+			dl.setY ( origin.getY ( ) + ( step.getY ( ) * i ) );
+			dl.setZ ( origin.getZ ( ) + ( step.getZ ( ) * i ) );
+			drawParticle ( dl );
 		}
 	}
 }

@@ -124,45 +124,40 @@ public class Teleporter extends Prop
 		
 		frame++;
 		int f = frame % 60;
+		Location pl = new Location ( location.getWorld ( ), 0, 0, 0 );
 		//Make multiples.
 		for ( int i = 0; i < 5; i++ )
 		{
 			f += 12;
 			f = f % 60;
 			//Makes a nice spiral shape.
-			Location p = new Location ( 
-				location.getWorld ( ), 
-				location.getX ( ) + ( Math.sin ( f * 6 ) / 2 ), 
-				location.getY ( ) + ( f / 20.5 ), 
-				location.getZ ( ) + ( Math.cos ( f * 6 ) / 2 ) );
-			ParticleEffect.REDSTONE.display ( color, p, 100.0 );
-			ParticleEffect.REDSTONE.display ( color, p, 100.0 );
+			pl.setX ( location.getX ( ) + ( Math.sin ( f * 6 ) / 2 ) );
+			pl.setY ( location.getY ( ) + ( f / 20.5 ) );
+			pl.setZ ( location.getZ ( ) + ( Math.cos ( f * 6 ) / 2 ) );
+			ParticleEffect.REDSTONE.display ( color, pl, 100.0 );
+			ParticleEffect.REDSTONE.display ( color, pl, 100.0 );
 		}
 		
 		for ( int i = 0; i < 5; i++ )
 		{
 			f += 12;
 			f = f % 60;
-			//Makes a nice spiral shape.
-			Location p = new Location ( 
-				location.getWorld ( ), 
-				location.getX ( ) + ( -Math.sin ( f * 6 ) / 2 ), 
-				location.getY ( ) + ( f / 20.5 ), 
-				location.getZ ( ) + ( -Math.cos ( f * 6 ) / 2 ) );
-			ParticleEffect.REDSTONE.display ( color, p, 100.0 );
-			ParticleEffect.REDSTONE.display ( color, p, 100.0 );
+			//Makes a nice spiral shape. 
+			pl.setX ( location.getX ( ) + ( -Math.sin ( f * 6 ) / 2 ) );
+			pl.setY ( location.getY ( ) + ( f / 20.5 ) );
+			pl.setZ ( location.getZ ( ) + ( -Math.cos ( f * 6 ) / 2 ) );
+			ParticleEffect.REDSTONE.display ( color, pl, 100.0 );
+			ParticleEffect.REDSTONE.display ( color, pl, 100.0 );
 		}
 		
 		f = f % 15;
 		for ( int i = 0; i < 12; i++ )
-		{
-			Location l = new Location ( 
-					location.getWorld ( ), 
-					location.getX ( ) + ( Math.sin ( i * 30 ) / 3 ) , 
-					location.getY ( ) + ( f / 5.125 ), 
-					location.getZ ( ) + ( Math.cos ( i * 30 ) / 3 ) );
-			ParticleEffect.REDSTONE.display ( lcolor, l, 100.0 );
-			ParticleEffect.REDSTONE.display ( lcolor, l, 100.0 );
+		{ 
+			pl.setX ( location.getX ( ) + ( Math.sin ( i * 30 ) / 3 ) );
+			pl.setY ( location.getY ( ) + ( f / 5.125 ) );
+			pl.setZ ( location.getZ ( ) + ( Math.cos ( i * 30 ) / 3 ) );
+			ParticleEffect.REDSTONE.display ( lcolor, pl, 100.0 );
+			ParticleEffect.REDSTONE.display ( lcolor, pl, 100.0 );
 		}
 		
 		//Check if any players are inside the teleporter.
