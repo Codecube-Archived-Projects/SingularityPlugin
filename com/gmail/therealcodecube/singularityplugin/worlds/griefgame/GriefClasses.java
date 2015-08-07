@@ -199,6 +199,9 @@ public enum GriefClasses
 			m.setDisplayName ( "Hire Builders" );
 			hire.setItemMeta ( m );
 			p.getInventory ( ).addItem ( hire );
+			
+			GriefContractorData data = new GriefContractorData ( null );
+			p.setCustomPlayerData ( data );
 		}
 	};
 	

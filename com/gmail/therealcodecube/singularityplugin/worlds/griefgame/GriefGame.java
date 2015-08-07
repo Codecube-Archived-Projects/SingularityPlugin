@@ -22,6 +22,7 @@ import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
 import com.gmail.therealcodecube.singularityplugin.Util;
 import com.gmail.therealcodecube.singularityplugin.hologram.ParticleGrid;
 import com.gmail.therealcodecube.singularityplugin.hologram.ParticleHologram;
+import com.gmail.therealcodecube.singularityplugin.player.CustomPlayerData;
 import com.gmail.therealcodecube.singularityplugin.player.FieldStat;
 import com.gmail.therealcodecube.singularityplugin.player.SBoard;
 import com.gmail.therealcodecube.singularityplugin.player.SBoardStat;
@@ -153,6 +154,7 @@ public class GriefGame extends Minigame
 	@Override
 	public void onRightClick ( PlayerInteractEvent e )
 	{
+		SPlayer p = SPlayer.getPlayer ( e.getPlayer ( ) );
 		//If it is a fire extinguisher...
 		if ( ( e.getItem ( ).getType ( ) == Material.PRISMARINE_SHARD ) && 
 				( ChatColor.stripColor ( e.getItem ( ).getItemMeta ( ).getDisplayName ( ) ).equals ( "Fire Extinguisher" ) ) )
@@ -200,14 +202,47 @@ public class GriefGame extends Minigame
 				i.setItem ( l, is );
 				
 				int loc = i.getHeldItemSlot ( );
-				i.remove ( Material.REDSTONE_TORCH_ON );
-				//Code snippet from WELDER enum instance.
-				ItemStack weld = new ItemStack ( Material.REDSTONE_TORCH_ON );
-				ItemMeta m = weld.getItemMeta ( );
-				m.addEnchant ( Enchantment.FIRE_ASPECT, 1, true );
-				m.setDisplayName ( "Arc Welder" );
-				weld.setItemMeta ( m );
+				ItemStack weld = i.getItem ( loc );
+				i.remove ( weld );
 				i.setItem ( loc, weld );
+			}
+		}
+		
+		//If it is a tape measure...
+		if ( ( e.getItem ( ).getType ( ) == Material.STRING ) && 
+				( ChatColor.stripColor ( e.getItem ( ).getItemMeta ( ).getDisplayName ( ) ).equals ( "Tape Measure" ) ) )
+		{
+			e.setCancelled ( true );
+			
+			PlayerInventory i = p.getInventory ( );
+			int loc = i.getHeldItemSlot ( );
+			ItemStack weld = i.getItem ( loc );
+			i.remove ( weld );
+			i.setItem ( loc, weld );
+			
+			CustomPlayerData dat = p.getCustomPlayerData ( );
+			SingularityPlugin.info ( dat.toString ( ) );
+			if ( dat instanceof GriefContractorData )
+			{
+				GriefContractorData data = ( GriefContractorData ) dat;
+				Location l = e.getClickedBlock ( ).getRelative ( e.getBlockFace ( ) ).getLocation ( );
+				if ( data.getGrid ( ) == null )
+				{
+					data.setGrid ( new ParticleGrid ( l, l, new OrdinaryColor ( 128, 128, 128 ) ) );
+				}
+				else
+				{
+					if ( p.getVar ( "pointSet" ) == 0 )
+					{
+						data.setFirstPoint ( l );
+						p.setVar ( "pointSet", 1 );
+					}
+					else
+					{
+						data.setSecondPoint ( l );
+						p.setVar ( "pointSet", 0 );
+					}
+				}
 			}
 		}
 	}
@@ -216,6 +251,11 @@ public class GriefGame extends Minigame
 	public void updatePlayer ( SPlayer p )
 	{
 		p.getPlayer ( ).setFoodLevel ( 17 );
+		if ( p.getCustomPlayerData ( ) instanceof GriefContractorData )
+		{
+			GriefContractorData dat = ( GriefContractorData ) p.getCustomPlayerData ( );
+			dat.getGrid ( ).render ( );
+		}
 	}
 	
 	@Override

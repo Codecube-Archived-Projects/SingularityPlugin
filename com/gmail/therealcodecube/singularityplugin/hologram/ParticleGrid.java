@@ -3,7 +3,6 @@ package com.gmail.therealcodecube.singularityplugin.hologram;
 import org.bukkit.Location;
 
 import com.darkblade12.particleeffect.ParticleEffect.OrdinaryColor;
-import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
 import com.gmail.therealcodecube.singularityplugin.Util;
 
 public class ParticleGrid extends ParticleShape 
@@ -12,10 +11,31 @@ public class ParticleGrid extends ParticleShape
 	private int ySteps = 0;
 	private int zSteps = 0;
 	private int frame = 0;
+	private Location origSrt, origEnd, pDraw;
 	
 	public ParticleGrid ( Location s, Location e, OrdinaryColor o )
 	{
 		super ( s, DEFAULT_RESOLUTION, o );
+		origSrt = s;
+		origEnd = e;
+		pDraw = e;
+		calculateOffsets ( s, e );
+	}
+	
+	public void setFirstPoint ( Location l )
+	{
+		origSrt = l;
+		calculateOffsets ( origSrt, origEnd );
+	}
+	
+	public void setSecondPoint ( Location l )
+	{
+		origEnd = l;
+		calculateOffsets ( origSrt, origEnd );
+	}
+	
+	private void calculateOffsets ( Location s, Location e )
+	{
 		Util.sortLocations ( s, e );
 		e.setX ( e.getX ( ) + 1 );
 		e.setY ( e.getY ( ) + 1 );
@@ -30,14 +50,14 @@ public class ParticleGrid extends ParticleShape
 	{
 		for ( int x = 0; x <= xSteps; x++ )
 		{
+			pDraw.setX ( origin.getX ( ) + x );
 			for ( int y = 0; y <= ySteps; y++ )
 			{
+				pDraw.setY ( origin.getY ( ) + y );
 				for ( double z = 0; z <= zSteps; z += ( 1.0 / resolution ) )
 				{
-					drawParticle ( new Location ( origin.getWorld ( ), 
-							origin.getX ( ) + x,
-							origin.getY ( ) + y,
-							origin.getZ ( ) + z ) );
+					pDraw.setZ ( origin.getZ ( ) + z );
+					drawParticle ( pDraw );
 				}
 			}
 		}
@@ -47,14 +67,14 @@ public class ParticleGrid extends ParticleShape
 	{
 		for ( int x = 0; x <= xSteps; x++ )
 		{
+			pDraw.setX ( origin.getX ( ) + x );
 			for ( int y = 0; y <= zSteps; y++ )
 			{
+				pDraw.setZ ( origin.getZ ( ) + y );
 				for ( double z = 0; z <= ySteps; z += ( 1.0 / resolution ) )
 				{
-					drawParticle ( new Location ( origin.getWorld ( ), 
-							origin.getX ( ) + x,
-							origin.getY ( ) + z,
-							origin.getZ ( ) + y ) );
+					pDraw.setZ ( origin.getZ ( ) + z );
+					drawParticle ( pDraw );
 				}
 			}
 		}
@@ -64,14 +84,14 @@ public class ParticleGrid extends ParticleShape
 	{
 		for ( int x = 0; x <= zSteps; x++ )
 		{
+			pDraw.setZ ( origin.getZ ( ) + x );
 			for ( int y = 0; y <= ySteps; y++ )
 			{
+				pDraw.setY ( origin.getY ( ) + y );
 				for ( double z = 0; z <= xSteps; z += ( 1.0 / resolution ) )
 				{
-					drawParticle ( new Location ( origin.getWorld ( ), 
-							origin.getX ( ) + z,
-							origin.getY ( ) + y,
-							origin.getZ ( ) + x ) );
+					pDraw.setX ( origin.getX ( ) + z );
+					drawParticle ( pDraw );
 				}
 			}
 		}
