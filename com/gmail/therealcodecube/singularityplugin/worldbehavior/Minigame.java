@@ -22,7 +22,7 @@ public class Minigame extends WorldBehavior
 {
 	//A 96 hour delay
 	public static final long MAX_DELAY = 96 * 60 * 60 * 1000L;
-	private int baseDelay = 40;
+	private int baseDelay = 5;
 	private int maxDelay = 10;
 	private int maxPlayers = 8;
 	protected int livingPlayers = 0;

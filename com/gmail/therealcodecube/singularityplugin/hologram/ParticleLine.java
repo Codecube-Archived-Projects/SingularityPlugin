@@ -24,7 +24,7 @@ public class ParticleLine extends ParticleShape
 	//E.G. 192,78,1092 and 194,76,1092
 	public static ParticleLine fromEndpoints ( Location s, Location e, int r, OrdinaryColor o )
 	{
-		return new ParticleLine ( s, e.add ( s ), r, o );
+		return new ParticleLine ( s, Util.subtract ( e, s ), r, o );
 	}
 	public static ParticleLine fromEndpoints ( Location s, Location e, OrdinaryColor o ) { return fromEndpoints ( s, e, DEFAULT_RESOLUTION, o ); }
 	public static ParticleLine fromEndpoints ( Location s, Location e, int r ) { return fromEndpoints ( s, e, r, DEFAULT_COLOR ); }
@@ -68,5 +68,14 @@ public class ParticleLine extends ParticleShape
 			dl.setZ ( origin.getZ ( ) + ( step.getZ ( ) * i ) );
 			drawParticle ( dl );
 		}
+	}
+	
+	@Override
+	public String toString ( )
+	{
+		String tr = "";
+		tr += "Origin: " + origin.toString ( );
+		tr += "\nOffset: " + offset.toString ( );
+		return tr;
 	}
 }

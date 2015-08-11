@@ -9,7 +9,6 @@ import com.gmail.therealcodecube.singularityplugin.hologram.ParticleLine;
 import com.gmail.therealcodecube.singularityplugin.node.Node;
 import com.gmail.therealcodecube.singularityplugin.player.SPlayer;
 import com.gmail.therealcodecube.singularityplugin.worldbehavior.WorldBehavior;
-import com.gmail.therealcodecube.singularityplugin.worldbehavior.Worlds;
 
 public class Teleporter extends Prop 
 {

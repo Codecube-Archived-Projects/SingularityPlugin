@@ -20,6 +20,7 @@ import com.darkblade12.particleeffect.ParticleEffect;
 import com.darkblade12.particleeffect.ParticleEffect.OrdinaryColor;
 import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
 import com.gmail.therealcodecube.singularityplugin.Util;
+import com.gmail.therealcodecube.singularityplugin.hologram.ParticleBox;
 import com.gmail.therealcodecube.singularityplugin.hologram.ParticleGrid;
 import com.gmail.therealcodecube.singularityplugin.hologram.ParticleHologram;
 import com.gmail.therealcodecube.singularityplugin.player.CustomPlayerData;
@@ -226,9 +227,9 @@ public class GriefGame extends Minigame
 			{
 				GriefContractorData data = ( GriefContractorData ) dat;
 				Location l = e.getClickedBlock ( ).getRelative ( e.getBlockFace ( ) ).getLocation ( );
-				if ( data.getGrid ( ) == null )
+				if ( data.getBox ( ) == null )
 				{
-					data.setGrid ( new ParticleGrid ( l, l, new OrdinaryColor ( 128, 128, 128 ) ) );
+					data.setBox ( new ParticleBox ( l, 1, 1, 1, new OrdinaryColor ( 255, 255, 255 ) ) );
 				}
 				else
 				{
@@ -254,7 +255,7 @@ public class GriefGame extends Minigame
 		if ( p.getCustomPlayerData ( ) instanceof GriefContractorData )
 		{
 			GriefContractorData dat = ( GriefContractorData ) p.getCustomPlayerData ( );
-			dat.getGrid ( ).render ( );
+			dat.getBox ( ).render ( );
 		}
 	}
 	

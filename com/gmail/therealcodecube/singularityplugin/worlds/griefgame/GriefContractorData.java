@@ -2,35 +2,38 @@ package com.gmail.therealcodecube.singularityplugin.worlds.griefgame;
 
 import org.bukkit.Location;
 
-import com.gmail.therealcodecube.singularityplugin.hologram.ParticleGrid;
+import com.gmail.therealcodecube.singularityplugin.hologram.ParticleBox;
 import com.gmail.therealcodecube.singularityplugin.player.CustomPlayerData;
 
 public class GriefContractorData extends CustomPlayerData
 {
-	private ParticleGrid grid;
+	private ParticleBox box;
 	
-	public GriefContractorData ( ParticleGrid g )
+	public GriefContractorData ( ParticleBox g )
 	{
-		grid = g;
+		box = g;
 	}
 	
-	public void setGrid ( ParticleGrid g )
+	public void setBox ( ParticleBox g )
 	{
-		grid = g;
+		box = g;
 	}
 	
-	public ParticleGrid getGrid ( )
+	public ParticleBox getBox ( )
 	{
-		return grid;
+		return box;
 	}
 	
 	public void setFirstPoint ( Location l )
 	{
-		grid.setFirstPoint ( l );
+		box.setOrigin ( l );
 	}
 	
 	public void setSecondPoint ( Location l )
 	{
-		grid.setSecondPoint ( l );
+		int x = ( int ) ( l.getX ( ) - box.getOrigin ( ).getX ( ) );
+		int y = ( int ) ( l.getY ( ) - box.getOrigin ( ).getY ( ) );
+		int z = ( int ) ( l.getZ ( ) - box.getOrigin ( ).getZ ( ) );
+		box.setOffsets ( x, y, z );
 	}
 }

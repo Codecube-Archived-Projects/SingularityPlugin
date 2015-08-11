@@ -149,4 +149,10 @@ public class Util
 			e.setZ ( z1 );
 		}
 	}
+	
+	//Returns a clone of the given location.
+	public static Location clone ( Location l )
+	{
+		return new Location ( l.getWorld ( ), l.getX ( ), l.getY ( ), l.getZ ( ) );
+	}
 }

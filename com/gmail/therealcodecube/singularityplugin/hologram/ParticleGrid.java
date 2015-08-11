@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import com.darkblade12.particleeffect.ParticleEffect.OrdinaryColor;
 import com.gmail.therealcodecube.singularityplugin.Util;
 
+@Deprecated
 public class ParticleGrid extends ParticleShape 
 {
 	private int xSteps = 0;

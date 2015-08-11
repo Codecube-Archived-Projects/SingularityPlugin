@@ -8,7 +8,7 @@ import com.darkblade12.particleeffect.ParticleEffect.OrdinaryColor;
 public abstract class ParticleShape 
 {
 	public static final int DEFAULT_RESOLUTION = 8;
-	public static final OrdinaryColor DEFAULT_COLOR = new OrdinaryColor ( 128, 128, 128 );
+	public static final OrdinaryColor DEFAULT_COLOR = new OrdinaryColor ( 255, 0, 255 );
 	
 	protected int resolution;
 	protected Location origin;

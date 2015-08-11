@@ -15,7 +15,6 @@ import com.gmail.therealcodecube.singularityplugin.player.SPlayer;
 import com.gmail.therealcodecube.singularityplugin.sql.SQLInterface;
 import com.gmail.therealcodecube.singularityplugin.sql.DefaultTables;
 import com.gmail.therealcodecube.singularityplugin.sql.SQLValue;
-import com.gmail.therealcodecube.singularityplugin.worldbehavior.Worlds;
 import com.gmail.therealcodecube.singularityplugin.worlds.griefgame.GriefGame;
 import com.gmail.therealcodecube.singularityplugin.worlds.pve.PVEGame;
 import com.gmail.therealcodecube.singularityplugin.worlds.pve.PVEItems;

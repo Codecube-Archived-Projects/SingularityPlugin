@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import com.gmail.therealcodecube.singularityplugin.SingularityPlugin;
 import com.gmail.therealcodecube.singularityplugin.player.SPlayer;
 import com.gmail.therealcodecube.singularityplugin.sgui.SButton;
 import com.gmail.therealcodecube.singularityplugin.sgui.SGui;
@@ -201,6 +202,7 @@ public enum GriefClasses
 			p.getInventory ( ).addItem ( hire );
 			
 			GriefContractorData data = new GriefContractorData ( null );
+			SingularityPlugin.info ( data.toString ( ) );
 			p.setCustomPlayerData ( data );
 		}
 	};
