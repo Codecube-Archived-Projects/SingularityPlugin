@@ -10,7 +10,7 @@ import com.gmail.therealcodecube.singularityplugin.Util;
 public class ParticleLine extends ParticleShape 
 {
 	private Location offset, step;
-	private int steps;
+	private int steps, frame = 0;
 	
 	public ParticleLine ( Location s, Location f, int r, OrdinaryColor o )
 	{
@@ -60,13 +60,23 @@ public class ParticleLine extends ParticleShape
 	@Override
 	public void render() 
 	{
+		frame++;
+		if ( frame == 3 )
+		{
+			frame = 0;
+		}
+		
 		Location dl = new Location ( origin.getWorld ( ), 0, 0, 0 );
 		for ( int i = 0; i < steps; i++ )
 		{
-			dl.setX ( origin.getX ( ) + ( step.getX ( ) * i ) );
-			dl.setY ( origin.getY ( ) + ( step.getY ( ) * i ) );
-			dl.setZ ( origin.getZ ( ) + ( step.getZ ( ) * i ) );
-			drawParticle ( dl );
+			//Only render certain parts each frame
+			if ( ( ( i + frame ) % 3 ) == 0 )
+			{
+				dl.setX ( origin.getX ( ) + ( step.getX ( ) * i ) );
+				dl.setY ( origin.getY ( ) + ( step.getY ( ) * i ) );
+				dl.setZ ( origin.getZ ( ) + ( step.getZ ( ) * i ) );
+				drawParticle ( dl );
+			}
 		}
 	}
 	

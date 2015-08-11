@@ -26,14 +26,11 @@ public class GriefContractorData extends CustomPlayerData
 	
 	public void setFirstPoint ( Location l )
 	{
-		box.setOrigin ( l );
+		box.setFirstPoint ( l );
 	}
 	
 	public void setSecondPoint ( Location l )
 	{
-		int x = ( int ) ( l.getX ( ) - box.getOrigin ( ).getX ( ) );
-		int y = ( int ) ( l.getY ( ) - box.getOrigin ( ).getY ( ) );
-		int z = ( int ) ( l.getZ ( ) - box.getOrigin ( ).getZ ( ) );
-		box.setOffsets ( x, y, z );
+		box.setSecondPoint ( l );
 	}
 }

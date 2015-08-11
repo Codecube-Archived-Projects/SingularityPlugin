@@ -229,7 +229,8 @@ public class GriefGame extends Minigame
 				Location l = e.getClickedBlock ( ).getRelative ( e.getBlockFace ( ) ).getLocation ( );
 				if ( data.getBox ( ) == null )
 				{
-					data.setBox ( new ParticleBox ( l, 1, 1, 1, new OrdinaryColor ( 255, 255, 255 ) ) );
+					data.setBox ( new ParticleBox ( l, 1, 1, 0, new OrdinaryColor ( 255, 255, 255 ) ) );
+					p.setVar ( "pointSet", 1 );
 				}
 				else
 				{
