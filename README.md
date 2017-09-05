@@ -1,2 +1,2 @@
 # SingularityPlugin
-The plugin used to manage the Singularity minecraft server network.
+The plugin that ran on a server that was made over the course of a summer, then later abandoned.
